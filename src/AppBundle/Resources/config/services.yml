@@ -1,0 +1,17 @@
+services:
+    app.post_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - AppBundle\Entity\Post
+    app.admin_posts_controller:
+        class: AppBundle\Controller\Admin\PostsController
+        arguments:
+            - @templating
+            - @app.post_repository
+    app.posts_controller:
+        class: AppBundle\Controller\PostsController
+        arguments:
+            - @templating
+            - @app.post_repository
