@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @author Anna Morek
  *
  * @ORM\Table(name="tags")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Tag")
  */
 class Tag
 {
