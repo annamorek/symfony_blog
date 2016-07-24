@@ -1,0 +1,35 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <h2>
+        {{ 'tags.views.index.title'|trans }}
+        <a class="btn btn-primary" href="{{ path('tags-add') }}">Dodaj tag</a>
+    </h2>
+    <div class="well">
+        {% if tags %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>{{ 'tags.views.index.table.name'|trans }}</th>
+                    <th>{{ 'tags.views.index.table.action'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for tag in tags %}
+                    <tr>
+                        <td>{{ tag.name ? tag.name }}</td>
+                        </td>
+                        <td>
+                            <a class="" href="{{ path('tags-view', { 'id' : tag.id }) }}">{{ 'show'|trans }}</a>
+                            <a class="" href="{{ path('tags-edit', { 'id' : tag.id }) }}">{{ 'edit'|trans }}</a>
+                            <a class="" href="{{ path('tags-delete', { 'id' : tag.id }) }}">{{ 'delete'|trans }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>{{ 'tags.views.index.no_tags'|trans }}</p>
+        {% endif %}
+    </div>
+{% endblock %}

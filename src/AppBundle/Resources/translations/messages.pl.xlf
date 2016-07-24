@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>base.title</source>
+                <target>Witaj!</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>posts.views.add.title</source>
+                <target>Dodaj post.</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>posts.messages.success.edit</source>
+                <target>Post edytowany.</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>posts.views.index.title</source>
+                <target>Lista postów</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>posts.views.index.table.topic</source>
+                <target>Tytuł</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>posts.views.index.table.content</source>
+                <target>Zawartość</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>posts.views.index.table.created_at</source>
+                <target>Data utworzenia</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>posts.views.index.table.tags</source>
+                <target>Tagi</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>posts.views.index.table.action</source>
+                <target>Akcje</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>posts.messages.success.delete</source>
+                <target>Usunięto post.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

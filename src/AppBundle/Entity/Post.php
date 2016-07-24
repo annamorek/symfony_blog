@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \DateTime;
 
 /**
  * Class Post.
@@ -61,6 +62,39 @@ class Post
      * )
      */
     private $enabled;
+
+    /**
+     * Created at
+     * @ORM\Column(
+     *     name="created_at",
+     *     type="datetime",
+     *     nullable=false
+     * )
+     */
+    protected $created_at;
+
+    /**
+     * Tags array
+     *
+     * @ORM\ManyToMany(targetEntity="Tag")
+     * @ORM\JoinTable(
+     *      name="posts_tags",
+     *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
+     * )
+     *
+     * @var \Doctrine\Common\Collections\ArrayCollection $tags
+     */
+    protected $tags;
+
+    /**
+     * Post constructor.
+     */
+    public function __construct()
+    {
+        $this->created_at = new DateTime('now');
+        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -139,5 +173,61 @@ class Post
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Set created_at
+     *
+     * @param \DateTime $createdAt
+     * @return Post
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->created_at = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get created_at
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Add tags
+     *
+     * @param \AppBundle\Entity\Tag $tags
+     * @return Post
+     */
+    public function addTag(\AppBundle\Entity\Tag $tags)
+    {
+        $this->tags[] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Remove tags
+     *
+     * @param \AppBundle\Entity\Tag $tags
+     */
+    public function removeTag(\AppBundle\Entity\Tag $tags)
+    {
+        $this->tags->removeElement($tags);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 }
