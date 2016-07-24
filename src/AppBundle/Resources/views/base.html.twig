@@ -12,6 +12,7 @@
 <body>
 {% include 'AppBundle::navbar.html.twig' %}
 <div class="container">
+    {% include 'AppBundle::flash.html.twig' %}
     {% block body %}{% endblock %}
 </div>
 {% block javascripts %}
