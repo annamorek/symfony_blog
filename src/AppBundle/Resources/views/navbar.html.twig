@@ -21,12 +21,12 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ path('posts-index') }}">{{ 'navbar.index'|trans }}</a></li>
                     <li><a href="{{ path('tags-index') }}">{{ 'navbar.tags-index'|trans }}</a></li>
+                    <li><a href="{{ path('admin-users-index') }}">{{ 'navbar.users-index'|trans }}</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    {#<li><a href="{{ path('fos_user_security_login') }}">{{ 'navbar.login'|trans }}</a></li>#}
-                    {#<li><a href="{{ path('fos_user_registration_register') }}">{{ 'navbar.register'|trans }}</a></li>#}
-                    <li>Login</li>
-                    <li>Register</li>
+                    <li><a href="{{ path('fos_user_security_login') }}">{{ 'navbar.login'|trans }}</a></li>
+                    <li><a href="{{ path('fos_user_registration_register') }}">{{ 'navbar.register'|trans }}</a></li>
+                    <li><a href="{{ path('fos_user_security_logout') }}">{{ 'navbar.logout'|trans }}</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->

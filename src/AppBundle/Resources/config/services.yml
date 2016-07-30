@@ -5,6 +5,7 @@ services:
     factory_method: getRepository
     arguments:
       - AppBundle\Entity\Post
+      
   app.posts_controller:
     class: AppBundle\Controller\PostsController
     arguments:
@@ -15,12 +16,14 @@ services:
       - @session
       - @templating
       - @translator
+
   app.post_form:
     class: AppBundle\Form\PostType
     tags:
       - { name: form.type, alias: post }
     arguments:
       - @translator
+
   app.tags_controller:
     class: AppBundle\Controller\TagsController
     arguments:
@@ -30,13 +33,60 @@ services:
       - @session
       - @templating
       - @translator
+
   app.tag_repository:
     class: Doctrine\ORM\EntityRepository
     factory_service: doctrine.orm.default_entity_manager
     factory_method: getRepository
     arguments:
       - AppBundle\Entity\Tag
+
   app.tag_form:
     class: AppBundle\Form\TagType
     tags:
       - { name: form.type, alias: tag }
+
+  app.user_repository:
+    class: Doctrine\ORM\EntityRepository
+    factory_service: doctrine.orm.default_entity_manager
+    factory_method: getRepository
+    arguments:
+      - AppBundle\Entity\User
+
+  app.users_controller:
+    class: AppBundle\Controller\UsersController
+    arguments:
+      - @templating
+      - @app.usermanager_service
+      - @form.factory
+      - @router
+      - @translator
+      - @session
+      - @app.user_repository
+      - @security.context
+
+  app.change_role_form:
+    class: AppBundle\Form\ChangeRoleType
+    tags:
+      - { name: form.type, alias: changeRole }
+    arguments:
+      - @translator
+
+  app.usermanager_service:
+    class: FOS\UserBundle\Doctrine\UserManager
+    arguments: [@security.encoder_factory, @fos_user.util.username_canonicalizer, @fos_user.util.email_canonicalizer, @fos_user.entity_manager, AppBundle\Entity\User]
+
+  # Static pages
+  app.static_pages_controller:
+    class: AppBundle\Controller\StaticPagesController
+    arguments:
+      - @templating
+      - @translator
+      - @security.context
+
+  app.change_role_form:
+    class: AppBundle\Form\ChangeRoleType
+    tags:
+      - { name: form.type, alias: changeRole }
+    arguments:
+      - @translator

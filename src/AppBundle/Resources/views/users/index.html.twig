@@ -1,0 +1,32 @@
+{% extends 'AppBundle::base.html.twig' %}
+{% block body %}
+    <h2>Users list <a href="{{ path('admin-users-add') }}">Add new user</a>
+    </h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nazwa</th>
+            <th>Email</th>
+            <th>Rola</th>
+            <th>Akcja</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.roles[0] }}
+                    {% if current_user_id != user.id %}
+                        <a href="{{ path('admin-user-edit-role', { 'id' : user.id}) }}">Zmień rolę</a>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('admin-users-edit', { 'id' : user.id}) }}">Edytuj</a>
+                    <a href="{{ path('admin-users-delete', { 'id' : user.id }) }}">{{ 'delete'|trans }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
