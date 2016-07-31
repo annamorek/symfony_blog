@@ -1,8 +1,8 @@
 <?php
 /**
- * Post entity.
+ * Comment entity.
  *
- * @copyright (c) 2016 Anna Morek
+ * @copyright (c) 2016 Tomasz Chojna
  * @link http://epi.chojna.info.pl
  */
 
@@ -12,15 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
 
 /**
- * Class Post.
+ * Class Comment.
  *
  * @package Model
- * @author Tomasz Chojna
+ * @author Anna Morek
  *
- * @ORM\Table(name="posts")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Post")
+ * @ORM\Table(name="comments")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Comment")
  */
-class Post
+class Comment
 {
     /**
      * @ORM\Id
@@ -34,16 +34,6 @@ class Post
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @ORM\Column(
-     *     name="topic",
-     *     type="string",
-     *     length=128,
-     *     nullable=false
-     * )
-     */
-    private $topic;
 
     /**
      * @ORM\Column(
@@ -74,33 +64,26 @@ class Post
     protected $created_at;
 
     /**
-     * Tags array
-     *
-     * @ORM\ManyToMany(targetEntity="Tag")
-     * @ORM\JoinTable(
-     *      name="posts_tags",
-     *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
-     * )
-     *
-     * @var \Doctrine\Common\Collections\ArrayCollection $tags
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
-    protected $tags;
+    private $post;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
+     * @ORM\JoinColumn(name="user_id ", referencedColumnName="id")
      */
-    private $comments;
+    private $user;
 
     /**
-     * Post constructor.
+     * Comment constructor.
      */
     public function __construct()
     {
         $this->created_at = new DateTime('now');
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
 
     /**
      * Get id
@@ -113,33 +96,10 @@ class Post
     }
 
     /**
-     * Set topic
-     *
-     * @param string $topic
-     * @return Post
-     */
-    public function setTopic($topic)
-    {
-        $this->topic = $topic;
-
-        return $this;
-    }
-
-    /**
-     * Get topic
-     *
-     * @return string 
-     */
-    public function getTopic()
-    {
-        return $this->topic;
-    }
-
-    /**
      * Set content
      *
      * @param string $content
-     * @return Post
+     * @return Comment
      */
     public function setContent($content)
     {
@@ -162,7 +122,7 @@ class Post
      * Set enabled
      *
      * @param boolean $enabled
-     * @return Post
+     * @return Comment
      */
     public function setEnabled($enabled)
     {
@@ -185,7 +145,7 @@ class Post
      * Set created_at
      *
      * @param \DateTime $createdAt
-     * @return Post
+     * @return Comment
      */
     public function setCreatedAt($createdAt)
     {
@@ -205,35 +165,48 @@ class Post
     }
 
     /**
-     * Add tags
+     * Set post
      *
-     * @param \AppBundle\Entity\Tag $tags
-     * @return Post
+     * @param \AppBundle\Entity\Post $post
+     * @return Comment
      */
-    public function addTag(\AppBundle\Entity\Tag $tags)
+    public function setPost(\AppBundle\Entity\Post $post = null)
     {
-        $this->tags[] = $tags;
+        $this->post = $post;
 
         return $this;
     }
 
     /**
-     * Remove tags
+     * Get post
      *
-     * @param \AppBundle\Entity\Tag $tags
+     * @return \AppBundle\Entity\Post 
      */
-    public function removeTag(\AppBundle\Entity\Tag $tags)
+    public function getPost()
     {
-        $this->tags->removeElement($tags);
+        return $this->post;
     }
 
     /**
-     * Get tags
+     * Set user
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @param \AppBundle\Entity\User $user
+     * @return Comment
      */
-    public function getTags()
+    public function setUser(\AppBundle\Entity\User $user = null)
     {
-        return $this->tags;
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

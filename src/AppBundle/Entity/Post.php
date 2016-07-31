@@ -2,7 +2,7 @@
 /**
  * Post entity.
  *
- * @copyright (c) 2016 Tomasz Chojna
+ * @copyright (c) 2016 Anna Morek
  * @link http://epi.chojna.info.pl
  */
 
@@ -88,12 +88,18 @@ class Post
     protected $tags;
 
     /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
+     */
+    private $comments;
+
+    /**
      * Post constructor.
      */
     public function __construct()
     {
         $this->created_at = new DateTime('now');
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -229,5 +235,38 @@ class Post
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \AppBundle\Entity\Comment $comments
+     * @return Post
+     */
+    public function addComment(\AppBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \AppBundle\Entity\Comment $comments
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

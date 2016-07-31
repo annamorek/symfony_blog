@@ -1,0 +1,87 @@
+<?php
+/**
+ * Comment entity.
+ *
+ * @copyright (c) 2016 Tomasz Chojna
+ * @link http://epi.chojna.info.pl
+ */
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use \DateTime;
+
+/**
+ * Class Comment.
+ *
+ * @package Model
+ * @author Anna Morek
+ *
+ * @ORM\Table(name="comments")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Comment")
+ */
+class Comment
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(
+     *     type="integer",
+     *     nullable=false,
+     *     options={
+     *         "unsigned" = true
+     *     }
+     * )
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(
+     *     name="content",
+     *     type="text",
+     *     nullable=false
+     * )
+     */
+    private $content;
+
+    /**
+     * @ORM\Column(
+     *     name="enabled",
+     *     type="boolean",
+     *     nullable=false
+     * )
+     */
+    private $enabled;
+
+    /**
+     * Created at
+     * @ORM\Column(
+     *     name="created_at",
+     *     type="datetime",
+     *     nullable=false
+     * )
+     */
+    protected $created_at;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
+     * @ORM\JoinColumn(name="comment_id", referencedColumnName="id")
+     */
+    private $post;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
+     * @ORM\JoinColumn(name="comment_id ", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
+     * Comment constructor.
+     */
+    public function __construct()
+    {
+        $this->created_at = new DateTime('now');
+        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}
