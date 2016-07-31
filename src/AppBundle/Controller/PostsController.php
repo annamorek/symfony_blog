@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\PostType;
+use AppBundle\Form\CommentType;
 use AppBundle\Entity\Post;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -43,6 +44,13 @@ class PostsController
     private $tagsModel;
 
     /**
+     * Model object.
+     *
+     * @var ObjectRepository $postsModel
+     */
+    private $commentsModel;
+
+    /**
      * Form factory.
      *
      * @var
@@ -78,6 +86,13 @@ class PostsController
     private $translator;
 
     /**
+     * SecurityContext object.
+     *
+     * @var SecurityContext $securityContext
+     */
+    private $securityContext;
+
+    /**
      * PostsController constructor.
      *
      * @param EngineInterface $templating Templating engine
@@ -90,7 +105,9 @@ class PostsController
         RouterInterface $router,
         Session $session,
         EngineInterface $templating,
-        Translator $translator
+        Translator $translator,
+        SecurityContext $securityContext,
+        ObjectRepository $commentsModel
     ) {
         $this->postsModel = $postsModel;
         $this->tagsModel = $tagsModel;
@@ -99,6 +116,8 @@ class PostsController
         $this->session = $session;
         $this->templating = $templating;
         $this->translator = $translator;
+        $this->securityContext = $securityContext;
+        $this->commentsModel = $commentsModel;
     }
 
     /**
@@ -230,13 +249,56 @@ class PostsController
      * @throws NotFoundHttpException
      * @return Response A Response instance
      */
-    public function viewAction(Post $post = null)
+    public function viewAction(Request $request, Post $post = null)
     {
+        $postId = $post->getId();
+        $user = $this->getUser();
+        $comments = $post->getComments();
+
+        $commentForm = $this
+            ->formFactory
+            ->create(
+                new CommentType(),
+                null,
+                array(
+                )
+            );
+
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isValid()) {
+            $comment = $commentForm->getData();
+
+            $comment->setPost($post);
+            $comment->setUser($user);
+            $this->commentsModel->save($comment);
+            $this->session->getFlashBag()->set(
+                'success',
+                $this->translator->trans('comments.messages.success.edit')
+            );
+            return new RedirectResponse(
+                $this->router->generate('posts-view', array('id' => $postId))
+            );
+        }
+
         return $this->templating->renderResponse(
             'AppBundle:posts:view.html.twig',
             array(
                 'post' => $post,
+                'form' => $commentForm->createView(),
+                'comments' => $comments
             )
         );
+    }
+
+    /**
+     * Get usr id
+     *
+     * @return int
+     */
+    private function getUser()
+    {
+        $user_id = $this->securityContext->getToken()->getUser();
+        return $user_id;
     }
 }

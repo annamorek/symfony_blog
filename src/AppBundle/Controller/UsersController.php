@@ -87,6 +87,13 @@ class UsersController
     private $userModel;
 
     /**
+     * SecurityContext object.
+     *
+     * @var SecurityContext $securityContext
+     */
+    private $securityContext;
+
+    /**
      * UsersController constructor.
      * @param EngineInterface $templating
      * @param UserManager $userManager

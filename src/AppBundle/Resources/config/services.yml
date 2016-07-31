@@ -1,4 +1,5 @@
 services:
+# Posts
   app.post_repository:
     class: Doctrine\ORM\EntityRepository
     factory_service: doctrine.orm.default_entity_manager
@@ -16,6 +17,8 @@ services:
       - @session
       - @templating
       - @translator
+      - @security.context
+      - @app.comment_repository
 
   app.post_form:
     class: AppBundle\Form\PostType
@@ -24,6 +27,7 @@ services:
     arguments:
       - @translator
 
+# Tags
   app.tags_controller:
     class: AppBundle\Controller\TagsController
     arguments:
@@ -46,6 +50,7 @@ services:
     tags:
       - { name: form.type, alias: tag }
 
+# Users
   app.user_repository:
     class: Doctrine\ORM\EntityRepository
     factory_service: doctrine.orm.default_entity_manager
@@ -83,10 +88,29 @@ services:
       - @templating
       - @translator
       - @security.context
+      - @app.post_repository
 
-  app.change_role_form:
-    class: AppBundle\Form\ChangeRoleType
-    tags:
-      - { name: form.type, alias: changeRole }
+  # Comments
+  app.comments_controller:
+    class: AppBundle\Controller\CommentsController
     arguments:
+      - @templating
+      - @app.usermanager_service
+      - @form.factory
+      - @router
       - @translator
+      - @session
+      - @app.comment_repository
+      - @security.context
+
+  app.comment_repository:
+    class: Doctrine\ORM\EntityRepository
+    factory_service: doctrine.orm.default_entity_manager
+    factory_method: getRepository
+    arguments:
+      - AppBundle\Entity\Comment
+
+  app.comment_form:
+    class: AppBundle\Form\CommentType
+    tags:
+      - { name: form.type, alias: comment }

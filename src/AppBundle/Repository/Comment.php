@@ -12,4 +12,31 @@ use Doctrine\ORM\EntityRepository;
  */
 class Comment extends EntityRepository
 {
+    /**
+     * Save comment object.
+     * @param \AppBundle\Entity\Comment $comment
+     * @param
+     */
+    public function save(\Appbundle\Entity\Comment $comment)
+    {
+        $this->_em->persist($comment);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete answer object.
+     *
+     * @param Comment $comment Comment object
+     *
+     * @return mixed
+     */
+    public function delete(\AppBundle\Entity\Comment $comment)
+    {
+        if (!$comment) {
+            throw $this->createNotFoundException('No comment found');
+        }
+        $this->_em->remove($comment);
+        $this->_em->flush();
+    }
+
 }

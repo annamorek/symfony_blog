@@ -43,6 +43,13 @@ class StaticPagesController
     private $securityContext;
 
     /**
+     * Model object.
+     *
+     * @var ObjectRepository $postsModel
+     */
+    private $postsModel;
+
+    /**
      * StaticPagesController constructor.
      * @param EngineInterface $templating
      * @param Translator $translator
@@ -51,27 +58,34 @@ class StaticPagesController
     public function __construct(
         EngineInterface $templating,
         Translator $translator,
-        SecurityContext $securityContext
+        SecurityContext $securityContext,
+        ObjectRepository $postsModel
     ) {
         $this->templating = $templating;
         $this->translator = $translator;
         $this->securityContext = $securityContext;
+        $this->postsModel = $postsModel;
     }
 
     /**
      * Index action.
      *
-     * @Route("/", name="index")
+     * @Route("/", name="homepage")
      *
      * @throws NotFoundHttpException
      * @return Response A Response instance
      */
     public function indexAction()
     {
-
+        $posts = $this->postsModel->findAll();
+        if (!$posts) {
+            throw new NotFoundHttpException('Posts not found!');
+        }
         return $this->templating->renderResponse(
             'AppBundle:staticPages:index.html.twig',
-            array()
+            array(
+                'posts' => $posts
+            )
         );
     }
 }

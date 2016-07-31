@@ -1,4 +1,27 @@
 {% extends 'AppBundle::base.html.twig' %}
 {% block body %}
-    <h2>Blog</h2>
+    <h2>Blog
+        <h2>
+            {{ 'posts.views.index.title'|trans }}
+            <a class="btn btn-primary" href="{{ path('posts-add') }}">Dodaj post</a>
+        </h2>
+        <div>
+            {% if posts %}
+                {% for post in posts %}
+                    <div class="well">
+                        <h3>{{ post.topic ? post.topic }}</h3>
+                        <p>{{ post.CreatedAt ? post.CreatedAt|date('d-m-Y') }}</p>
+                        <p>{{ post.content ? post.content }}</p>
+                        <p>Tags:
+                            {% for tag in post.tags %}
+                                {{ tag.name }}
+                            {% endfor %}
+                        </p>
+                        <a class=" btn btn-primary" href="{{ path('posts-view', { 'id' : post.id }) }}">{{ 'show'|trans }}</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>{{ 'posts.views.index.no_posts'|trans }}</p>
+            {% endif %}
+        </div>
 {% endblock %}
