@@ -106,6 +106,7 @@ class TagsController
      *
      * @Route("admin/tags/index", name="admin-tags-index")
      * @Route("admin/tags/index/", name="admin-tags-index")
+     * @Route("/tags/index/", name="tags-index")
      *
      * @throws NotFoundHttpException
      * @return Response A Response instance
@@ -128,7 +129,8 @@ class TagsController
      * View action.
      *
      * @Route("admin/tags/view/{id}", name="admin-tags-view")
-     * @Route("admin/tags/view/{id}/")
+     * @Route("admin/tags/view/{id}/", name="admin-tags-view")
+     * @Route("/tags/view/{id}/",  name="tags-view")
      * @ParamConverter("tag", class="AppBundle:Tag")
      *
      * @param Tag $tag Tag entity
@@ -142,9 +144,13 @@ class TagsController
                 $this->translator->trans('tags.messages.tag_not_found')
             );
         }
+        $posts = $tag->getPosts();
         return $this->templating->renderResponse(
             'AppBundle:tags:view.html.twig',
-            array('tag' => $tag)
+            array(
+                'tag' => $tag,
+                'posts' => $posts
+            )
         );
     }
 

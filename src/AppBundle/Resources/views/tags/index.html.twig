@@ -3,7 +3,9 @@
 {% block body %}
     <h2>
         {{ 'tags.views.index.title'|trans }}
-        <a class="btn btn-primary" href="{{ path('admin-tags-add') }}">Dodaj tag</a>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-primary" href="{{ path('admin-tags-add') }}">Dodaj tag</a>
+        {% endif %}
     </h2>
     <div class="well">
         {% if tags %}
@@ -20,9 +22,14 @@
                         <td>{{ tag.name ? tag.name }}</td>
                         </td>
                         <td>
-                            <a class="" href="{{ path('admin-tags-view', { 'id' : tag.id }) }}">{{ 'show'|trans }}</a>
-                            <a class="" href="{{ path('admin-tags-edit', { 'id' : tag.id }) }}">{{ 'edit'|trans }}</a>
-                            <a class="" href="{{ path('admin-tags-delete', { 'id' : tag.id }) }}">{{ 'delete'|trans }}</a>
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
+                                <a class="" href="{{ path('admin-tags-view', { 'id' : tag.id }) }}">{{ 'show'|trans }}</a>
+                                <a class="" href="{{ path('admin-tags-edit', { 'id' : tag.id }) }}">{{ 'edit'|trans }}</a>
+                                <a class="" href="{{ path('admin-tags-delete', { 'id' : tag.id }) }}">{{ 'delete'|trans }}</a>
+                            {% else %}
+                                <a class="" href="{{ path('tags-view', { 'id' : tag.id }) }}">{{ 'show'|trans }}</a>
+                            {% endif %}
+
                         </td>
                     </tr>
                 {% endfor %}

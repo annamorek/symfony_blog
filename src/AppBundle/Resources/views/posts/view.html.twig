@@ -12,9 +12,11 @@
             </div>
         {% endfor %}
     </div>
-    <div class="col-md-4 col-md-offset-4">
-        <h2>{{ 'comments.views.add.title'|trans }}</h2>
-        <div>{{ form_errors(form) }}</div>
-        {{ form(form, {'method': 'POST'}) }}
-    </div>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_USER') %}
+        <div class="col-md-4 col-md-offset-4">
+            <h2>{{ 'comments.views.add.title'|trans }}</h2>
+            <div>{{ form_errors(form) }}</div>
+            {{ form(form, {'method': 'POST'}) }}
+        </div>
+    {% endif %}
 {% endblock %}

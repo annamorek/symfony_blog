@@ -43,6 +43,18 @@ class Tag
      */
     private $name;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Post", mappedBy="tags")
+     */
+    private $posts;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -75,5 +87,39 @@ class Tag
     public function getName()
     {
         return $this->name;
+    }
+
+
+    /**
+     * Add posts
+     *
+     * @param \AppBundle\Entity\Post $posts
+     * @return Tag
+     */
+    public function addPost(\AppBundle\Entity\Post $posts)
+    {
+        $this->posts[] = $posts;
+
+        return $this;
+    }
+
+    /**
+     * Remove posts
+     *
+     * @param \AppBundle\Entity\Post $posts
+     */
+    public function removePost(\AppBundle\Entity\Post $posts)
+    {
+        $this->posts->removeElement($posts);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPosts()
+    {
+        return $this->posts;
     }
 }

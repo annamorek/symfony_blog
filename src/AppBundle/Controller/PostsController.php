@@ -245,7 +245,8 @@ class PostsController
      * View action.
      *
      * @Route("admin/posts/view/{id}", name="admin-posts-view")
-     * @Route("admin/posts/view/{id}/")
+     * @Route("admin/posts/view/{id}/", name="admin-posts-view")
+     * @Route("/posts/view/{id}/", name="posts-view")
      * @ParamConverter("post", class="AppBundle:Post")
      * @param post $post Post entity
      * @throws NotFoundHttpException
@@ -293,58 +294,6 @@ class PostsController
         );
     }
 
-
-    /**
-     * UserView action.
-     *
-     * @Route("/posts/view/{id}", name="posts-view")
-     * @Route("/posts/view/{id}/")
-     * @ParamConverter("post", class="AppBundle:Post")
-     * @param post $post Post entity
-     * @throws NotFoundHttpException
-     * @return Response A Response instance
-     */
-    public function userViewAction(Request $request, Post $post = null)
-    {
-        $postId = $post->getId();
-        $user = $this->getUser();
-        $comments = $post->getComments();
-
-        $commentForm = $this
-            ->formFactory
-            ->create(
-                new CommentType(),
-                null,
-                array(
-                )
-            );
-
-        $commentForm->handleRequest($request);
-
-        if ($commentForm->isValid()) {
-            $comment = $commentForm->getData();
-
-            $comment->setPost($post);
-            $comment->setUser($user);
-            $this->commentsModel->save($comment);
-            $this->session->getFlashBag()->set(
-                'success',
-                $this->translator->trans('comments.messages.success.edit')
-            );
-            return new RedirectResponse(
-                $this->router->generate('posts-view', array('id' => $postId))
-            );
-        }
-
-        return $this->templating->renderResponse(
-            'AppBundle:posts:view.html.twig',
-            array(
-                'post' => $post,
-                'form' => $commentForm->createView(),
-                'comments' => $comments
-            )
-        );
-    }
 
     /**
      * Get usr id

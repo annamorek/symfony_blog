@@ -1,1 +1,22 @@
-<h2>{{ tag.name }}</h2>
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <h2>Posts with tag {{ tag.name }}</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Topic</th>
+            <th>Action</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <td>{{  post.topic }}</td>
+                <td><a class="" href="{{ path('posts-view', { 'id' : post.id }) }}">{{ 'show'|trans }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
