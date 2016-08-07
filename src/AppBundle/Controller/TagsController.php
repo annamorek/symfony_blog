@@ -104,8 +104,8 @@ class TagsController
     /**
      * Index action.
      *
-     * @Route("/tags/index", name="tags-index")
-     * @Route("/tags/index/", name="tags-index")
+     * @Route("admin/tags/index", name="admin-tags-index")
+     * @Route("admin/tags/index/", name="admin-tags-index")
      *
      * @throws NotFoundHttpException
      * @return Response A Response instance
@@ -127,8 +127,8 @@ class TagsController
     /**
      * View action.
      *
-     * @Route("/tags/view/{id}", name="tags-view")
-     * @Route("/tags/view/{id}/")
+     * @Route("admin/tags/view/{id}", name="admin-tags-view")
+     * @Route("admin/tags/view/{id}/")
      * @ParamConverter("tag", class="AppBundle:Tag")
      *
      * @param Tag $tag Tag entity
@@ -151,8 +151,8 @@ class TagsController
     /**
      * Add action.
      *
-     * @Route("/tags/add", name="tags-add")
-     * @Route("/tags/add/")
+     * @Route("admin/tags/add", name="admin-tags-add")
+     * @Route("admin/tags/add/")
      *
      * @param Request $request
      * @return Response A Response instance
@@ -190,8 +190,8 @@ class TagsController
     /**
      * Edit action.
      *
-     * @Route("/tags/edit/{id}", name="tags-edit")
-     * @Route("/tags/edit/{id}/")
+     * @Route("admin/tags/edit/{id}", name="admin-tags-edit")
+     * @Route("admin/tags/edit/{id}/")
      * @ParamConverter("tag", class="AppBundle:Tag")
      *
      * @param Tag $tag Tag entity
@@ -242,8 +242,8 @@ class TagsController
     /**
      * Delete action.
      *
-     * @Route("/tags/delete/{id}", name="tags-delete")
-     * @Route("/tags/delete/{id}/")
+     * @Route("admin/tags/delete/{id}", name="admin-tags-delete")
+     * @Route("admin/tags/delete/{id}/")
      * @ParamConverter("tag", class="AppBundle:Tag")
      *
      * @param Tag $tag Tag entity

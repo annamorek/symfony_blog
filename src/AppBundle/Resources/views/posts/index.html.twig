@@ -3,7 +3,9 @@
 {% block body %}
     <h2>
         {{ 'posts.views.index.title'|trans }}
-        <a class="btn btn-primary" href="{{ path('posts-add') }}">Dodaj post</a>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-primary" href="{{ path('admin-posts-add') }}">Dodaj post</a>
+        {% endif %}
     </h2>
     <div class="well">
         {% if posts %}
@@ -26,9 +28,9 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <a class="" href="{{ path('posts-view', { 'id' : post.id }) }}">{{ 'show'|trans }}</a>
-                            <a class="" href="{{ path('posts-edit', { 'id' : post.id }) }}">{{ 'edit'|trans }}</a>
-                            <a class="" href="{{ path('posts-delete', { 'id' : post.id }) }}">{{ 'delete'|trans }}</a>
+                            <a class="" href="{{ path('admin-posts-view', { 'id' : post.id }) }}">{{ 'show'|trans }}</a>
+                            <a class="" href="{{ path('admin-posts-edit', { 'id' : post.id }) }}">{{ 'edit'|trans }}</a>
+                            <a class="" href="{{ path('admin-posts-delete', { 'id' : post.id }) }}">{{ 'delete'|trans }}</a>
                         </td>
                     </tr>
                 {% endfor %}

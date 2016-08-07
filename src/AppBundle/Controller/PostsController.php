@@ -123,14 +123,16 @@ class PostsController
     /**
      * Add action.
      *
-     * @Route("/posts/add", name="posts-add")
-     * @Route("/posts/add/")
+     * @Route("admin/posts/add", name="admin-posts-add")
+     * @Route("admin/posts/add/")
      *
      * @param Request $request
      * @return Response A Response instance
      */
     public function addAction(Request $request)
     {
+        $this->checkAdmin();
+
         $postForm = $this
             ->formFactory
             ->create(
@@ -164,8 +166,8 @@ class PostsController
     /**
      * Edit action.
      *
-     * @Route("/posts/edit/{id}", name="posts-edit")
-     * @Route("/posts/edit/{id}/", name="posts-edit")
+     * @Route("admin/posts/edit/{id}", name="admin-posts-edit")
+     * @Route("admin/posts/edit/{id}/", name="admin-posts-edit")
      * @ParamConverter("post", class="AppBundle:Post")
      * @param Request $request
      * @return Response A Response instance
@@ -203,8 +205,8 @@ class PostsController
     /**
      * Delete action.
      *
-     * @Route("/posts/delete/{id}", name="posts-delete")
-     * @Route("/posts/delete/{id}/", name="posts-delete")
+     * @Route("admin/posts/delete/{id}", name="admin-posts-delete")
+     * @Route("admin/posts/delete/{id}/", name="admin-posts-delete")
      * @ParamConverter("post", class="AppBundle:Post")
      *
      * @param Request $request
@@ -224,8 +226,8 @@ class PostsController
     }
 
     /**
-     * @Route("posts/index", name="posts-index")
-     * @Route("posts/index/", name="posts-index")
+     * @Route("admin/posts/index", name="admin-posts-index")
+     * @Route("admin/posts/index/", name="admin-posts-index")
      */
     public function indexAction(Request $request)
     {
@@ -242,6 +244,59 @@ class PostsController
     /**
      * View action.
      *
+     * @Route("admin/posts/view/{id}", name="admin-posts-view")
+     * @Route("admin/posts/view/{id}/")
+     * @ParamConverter("post", class="AppBundle:Post")
+     * @param post $post Post entity
+     * @throws NotFoundHttpException
+     * @return Response A Response instance
+     */
+    public function viewAction(Request $request, Post $post = null)
+    {
+        $postId = $post->getId();
+        $user = $this->getUser();
+        $comments = $post->getComments();
+
+        $commentForm = $this
+            ->formFactory
+            ->create(
+                new CommentType(),
+                null,
+                array(
+                )
+            );
+
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isValid()) {
+            $comment = $commentForm->getData();
+
+            $comment->setPost($post);
+            $comment->setUser($user);
+            $this->commentsModel->save($comment);
+            $this->session->getFlashBag()->set(
+                'success',
+                $this->translator->trans('comments.messages.success.edit')
+            );
+            return new RedirectResponse(
+                $this->router->generate('posts-view', array('id' => $postId))
+            );
+        }
+
+        return $this->templating->renderResponse(
+            'AppBundle:posts:view.html.twig',
+            array(
+                'post' => $post,
+                'form' => $commentForm->createView(),
+                'comments' => $comments
+            )
+        );
+    }
+
+
+    /**
+     * UserView action.
+     *
      * @Route("/posts/view/{id}", name="posts-view")
      * @Route("/posts/view/{id}/")
      * @ParamConverter("post", class="AppBundle:Post")
@@ -249,7 +304,7 @@ class PostsController
      * @throws NotFoundHttpException
      * @return Response A Response instance
      */
-    public function viewAction(Request $request, Post $post = null)
+    public function userViewAction(Request $request, Post $post = null)
     {
         $postId = $post->getId();
         $user = $this->getUser();
@@ -298,7 +353,27 @@ class PostsController
      */
     private function getUser()
     {
-        $user_id = $this->securityContext->getToken()->getUser();
-        return $user_id;
+        return $this->securityContext->getToken()->getUser();
+    }
+
+    private function checkAdmin()
+    {
+        $userRoles = $this->getRoles();
+        $userRole = $userRoles[0]->getRole();
+
+        if ($userRole !== 'ROLE_ADMIN') {
+            $this->session->getFlashBag()->set(
+                'notice',
+                $this->translator->trans('no-access')
+            );
+            return new RedirectResponse(
+                $this->router->generate('homepage')
+            );
+        }
+    }
+
+    private function getRoles()
+    {
+        return $this->securityContext->getToken()->getRoles();
     }
 }

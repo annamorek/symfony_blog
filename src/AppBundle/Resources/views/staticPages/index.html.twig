@@ -3,7 +3,9 @@
     <h2>Blog
         <h2>
             {{ 'posts.views.index.title'|trans }}
-            <a class="btn btn-primary" href="{{ path('posts-add') }}">Dodaj post</a>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-primary" href="{{ path('admin-posts-add') }}">Dodaj post</a>
+            {% endif %}
         </h2>
         <div>
             {% if posts %}
