@@ -48,7 +48,8 @@ class Comment
      * @ORM\Column(
      *     name="enabled",
      *     type="boolean",
-     *     nullable=false
+     *     nullable=true,
+     *     options={ "default": false }
      * )
      */
     private $enabled;
@@ -58,8 +59,7 @@ class Comment
      * @ORM\Column(
      *     name="created_at",
      *     type="datetime",
-     *     nullable=false
-     * )
+     *     )
      */
     protected $created_at;
 

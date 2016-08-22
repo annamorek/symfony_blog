@@ -5,6 +5,8 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use AppBundle\Entity\User;
+
 
 /**
  * Class CommentType.
@@ -15,6 +17,21 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class CommentType extends AbstractType
 {
     /**
+     * User
+     * @var User
+     */
+    private $user;
+
+    /**
+     * TransactionType constructor.
+     * @param User $user
+     */
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
      * Form builder.
      *
      * @param FormBuilderInterface $builder Form builder
@@ -22,6 +39,9 @@ class CommentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $user = $this->user;
+        $userRoles = $this->user->getRoles();
+        $userRole = $userRoles[0];
 
         $builder->add(
             'id',
@@ -39,7 +59,9 @@ class CommentType extends AbstractType
                 'attr'=> array('class'=>'form-control')
             )
         );
-        $builder->add(
+        if ($userRole === 'ROLE_ADMIN')
+        {
+            $builder->add(
             'enabled',
             'checkbox',
             array(
@@ -47,6 +69,8 @@ class CommentType extends AbstractType
                 'required' => false
             )
         );
+        }
+
         $builder->add(
             'Zapisz',
             'submit',

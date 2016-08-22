@@ -153,7 +153,7 @@ class PostsController
                 $this->translator->trans('posts.messages.post_added')
             );
             return new RedirectResponse(
-                $this->router->generate('posts-index')
+                $this->router->generate('admin-posts-index')
             );
         }
 
@@ -254,44 +254,56 @@ class PostsController
      */
     public function viewAction(Request $request, Post $post = null)
     {
+        $user = $this->securityContext->getToken()->getUser();
+
         $postId = $post->getId();
         $user = $this->getUser();
         $comments = $post->getComments();
 
-        $commentForm = $this
-            ->formFactory
-            ->create(
-                new CommentType(),
-                null,
+        if (($this->securityContext->isGranted('ROLE_USER') || ($this->securityContext->isGranted('ROLE_ADMIN'))))
+        {
+            $commentForm = $this
+                ->formFactory
+                ->create(
+                    new CommentType($user),
+                    null,
+                    array()
+                );
+
+            $commentForm->handleRequest($request);
+
+            if ($commentForm->isValid()) {
+                $comment = $commentForm->getData();
+
+                $comment->setPost($post);
+                $comment->setUser($user);
+                $this->commentsModel->save($comment);
+                $this->session->getFlashBag()->set(
+                    'success',
+                    $this->translator->trans('comments.messages.success.edit')
+                );
+                return new RedirectResponse(
+                    $this->router->generate('posts-view', array('id' => $postId))
+                );
+            }
+
+            return $this->templating->renderResponse(
+                'AppBundle:posts:view.html.twig',
                 array(
+                    'post' => $post,
+                    'form' => $commentForm->createView(),
+                    'comments' => $comments
                 )
             );
-
-        $commentForm->handleRequest($request);
-
-        if ($commentForm->isValid()) {
-            $comment = $commentForm->getData();
-
-            $comment->setPost($post);
-            $comment->setUser($user);
-            $this->commentsModel->save($comment);
-            $this->session->getFlashBag()->set(
-                'success',
-                $this->translator->trans('comments.messages.success.edit')
-            );
-            return new RedirectResponse(
-                $this->router->generate('posts-view', array('id' => $postId))
+        } else {
+            return $this->templating->renderResponse(
+                'AppBundle:posts:view.html.twig',
+                array(
+                    'post' => $post,
+                    'comments' => $comments
+                )
             );
         }
-
-        return $this->templating->renderResponse(
-            'AppBundle:posts:view.html.twig',
-            array(
-                'post' => $post,
-                'form' => $commentForm->createView(),
-                'comments' => $comments
-            )
-        );
     }
 
 

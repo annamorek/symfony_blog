@@ -82,7 +82,8 @@ class CommentsController
         RouterInterface $router,
         Session $session,
         EngineInterface $templating,
-        Translator $translator
+        Translator $translator,
+        SecurityContext $securityContext
     ) {
         $this->commentsModel = $commentsModel;
         $this->formFactory = $formFactory;
@@ -90,6 +91,7 @@ class CommentsController
         $this->session = $session;
         $this->templating = $templating;
         $this->translator = $translator;
+        $this->securityContext = $securityContext;
     }
 
     /**
@@ -103,10 +105,12 @@ class CommentsController
      */
     public function addAction(Request $request)
     {
+        $user = $this->securityContext->getToken()->getUser();
+
         $commentForm = $this
             ->formFactory
             ->create(
-                new CommentType(),
+                new CommentType($user),
                 null,
                 array(
                 )
@@ -143,8 +147,10 @@ class CommentsController
      */
     public function editAction(Request $request, Comment $comment = null)
     {
+        $user = $this->securityContext->getToken()->getUser();
+
         $commentForm = $this->formFactory->create(
-            new CommentType(),
+            new CommentType($user),
             $comment,
             array(
             )
@@ -190,6 +196,42 @@ class CommentsController
         );
         return new RedirectResponse(
             $this->router->generate('comments-index')
+        );
+    }
+
+    /**
+     * Index action
+     *
+     * @Route("admin/comments/index", name="admin-comments-index")
+     * @Route("admin/comments/index/", name="admin-comments-index")
+     * @Route("comments/index/", name="comments-index")
+     * @param Request $request
+     */
+    public function indexAction(Request $request)
+    {
+        $comments = $this->commentsModel->findAll();
+        return $this->templating->renderResponse(
+            'AppBundle:comments:index.html.twig',
+            array(
+                'comments' => $comments
+            )
+        );
+    }
+
+    /**
+     * @Route("admin/comments/view/{id}", name="admin-comments-view")
+     * @Route("admin/comments/view/{id}/", name="admin-comments-view")
+     * @param Request $request
+     * @param Comment|null $comment
+     * @ParamConverter("comment", class="AppBundle:Comment")
+     */
+    public function viewAction(Request $request, Comment $comment = null)
+    {
+        return $this->templating->renderResponse(
+            'AppBundle:comments:view.html.twig',
+            array(
+                'comment' => $comment
+            )
         );
     }
 }

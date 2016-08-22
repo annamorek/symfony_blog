@@ -94,13 +94,12 @@ services:
   app.comments_controller:
     class: AppBundle\Controller\CommentsController
     arguments:
-      - @templating
-      - @app.usermanager_service
+      - @app.comment_repository
       - @form.factory
       - @router
-      - @translator
       - @session
-      - @app.comment_repository
+      - @templating
+      - @translator
       - @security.context
 
   app.comment_repository:
