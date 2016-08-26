@@ -8,6 +8,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Tag.
@@ -17,6 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="tags")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Tag")
+ * @UniqueEntity(fields="name", groups={"tag-default"})
  */
 class Tag
 {
@@ -40,6 +43,8 @@ class Tag
      *     length=128,
      *     nullable=false
      * )
+     * @Assert\NotBlank(groups={"tag-default"})
+     * @Assert\Length(min=3, max=128, groups={"tag-default"})
      */
     private $name;
 

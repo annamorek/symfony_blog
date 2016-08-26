@@ -28,21 +28,26 @@ class TagType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add(
-            'id',
-            'hidden',
-            array('mapped' => false)
+        if (isset($options['validation_groups'])
+            && count($options['validation_groups'])
+            && !in_array('tag-delete', $options['validation_groups'])
+        ) {
+            $builder->add(
+                'id',
+                'hidden',
+                array('mapped' => false)
 
-        );
-        $builder->add(
-            'name',
-            'text',
-            array(
-                'label' => 'Tag name',
-                'required' => true,
-                'max_length' => 128,
-            )
-        );
+            );
+            $builder->add(
+                'name',
+                'text',
+                array(
+                    'label' => 'Tag name',
+                    'required' => true,
+                    'max_length' => 128,
+                )
+            );
+        }
         $builder->add(
             'save',
             'submit',
@@ -61,7 +66,8 @@ class TagType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'AppBundle\Entity\Tag'
+                'data_class' => 'AppBundle\Entity\Tag',
+                'validation_groups' => 'tag-default'
             )
         );
     }

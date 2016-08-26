@@ -10,6 +10,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Comment.
@@ -41,6 +43,7 @@ class Comment
      *     type="text",
      *     nullable=false
      * )
+     * @Assert\Length(min=3, max=500, groups={"comment-default"})
      */
     private $content;
 
@@ -66,12 +69,14 @@ class Comment
     /**
      * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     * @Assert\NotBlank(groups={"comment-default"})
      */
     private $post;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @Assert\NotBlank(groups={"comment-default"})
      */
     private $user;
 

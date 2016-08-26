@@ -122,6 +122,7 @@ class CommentsController
                 new CommentType($user),
                 null,
                 array(
+                    'validation_groups' => 'comment-default'
                 )
             );
 
@@ -167,7 +168,9 @@ class CommentsController
             $commentForm = $this->formFactory->create(
                 new CommentType($user),
                 $comment,
-                array()
+                array(
+                    'validation_groups' => 'comment-default'
+                )
             );
 
             $commentForm->handleRequest($request);

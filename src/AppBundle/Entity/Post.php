@@ -10,6 +10,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Post.
@@ -42,6 +44,8 @@ class Post
      *     length=128,
      *     nullable=false
      * )
+     * @Assert\NotBlank(groups={"post-default"})
+     * @Assert\Length(min=3, max=128, groups={"post-default"})
      */
     private $topic;
 
@@ -51,6 +55,8 @@ class Post
      *     type="text",
      *     nullable=false
      * )
+     * @Assert\NotBlank(groups={"post-default"})
+     * @Assert\Length(min=3, max=1000, groups={"post-default"})
      */
     private $content;
 
@@ -88,7 +94,7 @@ class Post
     protected $tags;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"remove"})
      */
     private $comments;
 

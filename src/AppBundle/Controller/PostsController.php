@@ -139,7 +139,8 @@ class PostsController
                 new PostType(),
                 null,
                 array(
-                    'tag_model' => $this->tagsModel
+                    'tag_model' => $this->tagsModel,
+                    'validation_groups' => 'post-default'
                 )
             );
 
@@ -331,7 +332,6 @@ class PostsController
             );
         }
     }
-
 
     /**
      * Get usr id

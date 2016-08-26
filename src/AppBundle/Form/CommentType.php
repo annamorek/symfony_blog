@@ -43,34 +43,38 @@ class CommentType extends AbstractType
         $userRoles = $this->user->getRoles();
         $userRole = $userRoles[0];
 
-        $builder->add(
-            'id',
-            'hidden',
-            array('mapped' => false)
-        );
-
-        $builder->add(
-            'content',
-            'textarea',
-            array(
-                'label' => 'Treść',
-                'required' => true,
-                'max_length' => 128,
-                'attr'=> array('class'=>'form-control')
-            )
-        );
-        if ($userRole === 'ROLE_ADMIN')
-        {
+        if (isset($options['validation_groups'])
+            && count($options['validation_groups'])
+            && !in_array('comment-delete', $options['validation_groups'])
+        ) {
             $builder->add(
-            'enabled',
-            'checkbox',
-            array(
-                'label' => 'Opublikowane',
-                'required' => false
-            )
-        );
-        }
+                'id',
+                'hidden',
+                array('mapped' => false)
+            );
 
+            $builder->add(
+                'content',
+                'textarea',
+                array(
+                    'label' => 'Treść',
+                    'required' => true,
+                    'max_length' => 128,
+                    'attr'=> array('class'=>'form-control')
+                )
+            );
+            if ($userRole === 'ROLE_ADMIN')
+            {
+                $builder->add(
+                    'enabled',
+                    'checkbox',
+                    array(
+                        'label' => 'Opublikowane',
+                        'required' => false
+                    )
+                );
+            }
+        }
         $builder->add(
             'Zapisz',
             'submit',
@@ -93,6 +97,7 @@ class CommentType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => 'AppBundle\Entity\Comment',
+                'validation_groups' => 'comment-default'
             )
         );
     }

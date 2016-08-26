@@ -25,55 +25,59 @@ class PostType extends AbstractType
     {
         $tagDataTransformer = new TagDataTransformer($options['tag_model']);
 
-        $builder->add(
-            'id',
-            'hidden',
-            array('mapped' => false)
-        );
+        if (isset($options['validation_groups'])
+            && count($options['validation_groups'])
+            && !in_array('post-delete', $options['validation_groups'])
+        ) {
+            $builder->add(
+                'id',
+                'hidden',
+                array('mapped' => false)
+            );
 
-        $builder->add(
-            'topic',
-            'text',
-            array(
-                'label' => 'Temat',
-                'required' => true,
-                'max_length' => 128,
-                'attr'=> array('class'=>'form-control')
-            )
-        );
-        $builder->add(
-            'content',
-            'textarea',
-            array(
-                'label' => 'Treść',
-                'required' => false,
-                'max_length' => 1000,
-                'attr'=> array('class'=>'form-control')
-            )
-        );
-        $builder->add(
-            'enabled',
-            'checkbox',
-            array(
-                'label' => 'Opublikowane',
-                'required' => false
-            )
-        );
-        $builder->add(
-            $builder
-                ->create('tags', 'text')
-                ->addModelTransformer($tagDataTransformer)
-        );
+            $builder->add(
+                'topic',
+                'text',
+                array(
+                    'label' => 'Temat',
+                    'required' => true,
+                    'max_length' => 128,
+                    'attr' => array('class' => 'form-control')
+                )
+            );
+            $builder->add(
+                'content',
+                'textarea',
+                array(
+                    'label' => 'Treść',
+                    'required' => false,
+                    'max_length' => 1000,
+                    'attr' => array('class' => 'form-control')
+                )
+            );
+            $builder->add(
+                'enabled',
+                'checkbox',
+                array(
+                    'label' => 'Opublikowane',
+                    'required' => false
+                )
+            );
+            $builder->add(
+                $builder
+                    ->create('tags', 'text')
+                    ->addModelTransformer($tagDataTransformer)
+            );
+        }
         $builder->add(
             'Zapisz',
             'submit',
             array(
                 'label' => 'Zapisz',
-                'attr'=> array('class'=>'btn btn-primary btn-save')
+                'attr' => array('class' => 'btn btn-primary btn-save')
 
             )
         );
-
     }
 
     /**
@@ -86,6 +90,7 @@ class PostType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => 'AppBundle\Entity\Post',
+                'validation_groups' => 'post-default',
             )
         );
         $resolver->setRequired(array('tag_model'));
