@@ -23,6 +23,7 @@
                     {% endif %}
                     <td>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
+                            <a class="" href="{{ path('admin-comments-view', { 'id' : comment.id }) }}">{{ 'show'|trans }}</a>
                             <a class="" href="{{ path('comments-edit', { 'id' : comment.id }) }}">{{ 'edit'|trans }}</a>
                             <a class="" href="{{ path('comments-delete', { 'id' : comment.id }) }}">{{ 'delete'|trans }}</a>
                         {% endif %}
