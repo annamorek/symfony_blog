@@ -76,7 +76,7 @@ class Post
     /**
      * Tags array
      *
-     * @ORM\ManyToMany(targetEntity="Tag")
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="posts")
      * @ORM\JoinTable(
      *      name="posts_tags",
      *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},

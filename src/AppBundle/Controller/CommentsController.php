@@ -105,6 +105,15 @@ class CommentsController
      */
     public function addAction(Request $request)
     {
+        if ($this->securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY') == true) {
+            $this->session->getFlashBag()->set(
+                'warning',
+                $this->translator->trans('comments.no_access')
+            );
+            return new RedirectResponse(
+                $this->router->generate('homepage')
+            );
+        }
         $user = $this->securityContext->getToken()->getUser();
 
         $commentForm = $this
@@ -147,33 +156,47 @@ class CommentsController
      */
     public function editAction(Request $request, Comment $comment = null)
     {
-        $user = $this->securityContext->getToken()->getUser();
-
-        $commentForm = $this->formFactory->create(
-            new CommentType($user),
-            $comment,
-            array(
-            )
-        );
-
-        $commentForm->handleRequest($request);
-
-        if ($commentForm->isValid()) {
-            $comment = $commentForm->getData();
-            $this->commentsModel->save($comment);
-            $this->session->getFlashBag()->set(
-                'success',
-                $this->translator->trans('comments.messages.success.edit')
-            );
-            return new RedirectResponse(
-                $this->router->generate('comments-index')
-            );
+        if (!$comment) {
+            throw new NotFoundHttpException('Comment not found!');
         }
 
-        return $this->templating->renderResponse(
-            'AppBundle:comments:edit.html.twig',
-            array('form' => $commentForm->createView())
-        );
+        $postId = $comment->getPost()->getId();
+        $user = $this->securityContext->getToken()->getUser();
+
+        if ((int)($user->getId()) === (int)($comment->getUser()->getId()) || $this->securityContext->isGranted('ROLE_ADMIN')) {
+            $commentForm = $this->formFactory->create(
+                new CommentType($user),
+                $comment,
+                array()
+            );
+
+            $commentForm->handleRequest($request);
+
+            if ($commentForm->isValid()) {
+                $comment = $commentForm->getData();
+                $this->commentsModel->save($comment);
+                $this->session->getFlashBag()->set(
+                    'success',
+                    $this->translator->trans('comments.messages.success.edit')
+                );
+                return new RedirectResponse(
+                    $this->router->generate('admin-posts-view', array('id' => $postId))
+                );
+            }
+
+            return $this->templating->renderResponse(
+                'AppBundle:comments:edit.html.twig',
+                array('form' => $commentForm->createView())
+            );
+        } else {
+            $this->session->getFlashBag()->set(
+                'warning',
+                $this->translator->trans('no access')
+            );
+            return new RedirectResponse(
+                $this->router->generate('homepage')
+            );
+        }
     }
 
     /**
@@ -189,14 +212,30 @@ class CommentsController
      */
     public function deleteAction(Request $request, Comment $comment = null)
     {
-        $this->commentsModel->delete($comment);
-        $this->session->getFlashBag()->set(
-            'success',
-            $this->translator->trans('comments.messages.success.delete')
-        );
-        return new RedirectResponse(
-            $this->router->generate('comments-index')
-        );
+        if (!$comment) {
+            throw new NotFoundHttpException('Comment not found!');
+        }
+
+        $user = $this->securityContext->getToken()->getUser();
+
+        if ((int)($user->getId()) === (int)($comment->getUser()->getId()) || $this->securityContext->isGranted('ROLE_ADMIN')) {
+            $this->commentsModel->delete($comment);
+            $this->session->getFlashBag()->set(
+                'success',
+                $this->translator->trans('comments.messages.success.delete')
+            );
+            return new RedirectResponse(
+                $this->router->generate('comments-index')
+            );
+        } else {
+            $this->session->getFlashBag()->set(
+                'warning',
+                $this->translator->trans('no access')
+            );
+            return new RedirectResponse(
+                $this->router->generate('homepage')
+            );
+        }
     }
 
     /**
@@ -204,7 +243,6 @@ class CommentsController
      *
      * @Route("admin/comments/index", name="admin-comments-index")
      * @Route("admin/comments/index/", name="admin-comments-index")
-     * @Route("comments/index/", name="comments-index")
      * @param Request $request
      */
     public function indexAction(Request $request)
@@ -233,5 +271,30 @@ class CommentsController
                 'comment' => $comment
             )
         );
+    }
+
+    /**
+     * @Route("/comments/view/", name="posts-with-user-comments-view")
+     * @Route("/comments/view", name="posts-with-user-comments-view")
+     * @param Request $request
+     * @param Comment|null $comment
+     */
+    public function viewPostsWithUserCommentsAction(Request $request)
+    {
+        if ($this->securityContext->isGranted('ROLE_USER')) {
+            $user = $this->securityContext->getToken()->getUser();
+
+            $comments = $user->getComments();
+
+            return $this->templating->renderResponse(
+                'AppBundle:comments:viewPostsWithUserComments.html.twig',
+                array(
+                    'user' => $user,
+                    'comments' => $comments
+                )
+            );
+        } else {
+            throw new NotFoundHttpException('Page not found!');
+        }
     }
 }

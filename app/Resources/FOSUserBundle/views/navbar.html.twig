@@ -20,13 +20,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
-                        <li><a href="{{ path('admin-posts-index') }}">{{ 'navbar.posts.index'|trans }}</a></li>
+                        <li><a href="{{ path('admin-posts-index') }}">{{ 'navbar.index'|trans }}</a></li>
                         <li><a href="{{ path('admin-users-index') }}">{{ 'navbar.users-index'|trans }}</a></li>
                         <li><a href="{{ path('admin-tags-index') }}">{{ 'navbar.tags-index'|trans }}</a></li>
-                        <li><a href="{{ path('admin-comments-index') }}">{{ 'navbar.comments-index-to-enable'|trans }}</a></li>
-                    {% elseif is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_USER') %}
-                        <li><a href="{{ path('posts-with-user-comments-view') }}">{{ 'navbar.user.comments'|trans }}</a></li>
-                        <li><a href="{{ path('tags-index') }}">{{ 'navbar.tags-index'|trans }}</a></li>
+                        <li><a href="{{ path('admin-comments-index') }}">{{ 'navbar.comments-index'|trans }}</a></li>
                     {% else %}
                         <li><a href="{{ path('tags-index') }}">{{ 'navbar.tags-index'|trans }}</a></li>
                     {% endif %}
@@ -34,7 +31,6 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if (is_granted('IS_AUTHENTICATED_FULLY')) %}
-                        <li><a href="{{ path('fos_user_profile_show') }}">{{ 'navbar.profile'|trans }}</a></li>
                         <li><a href="{{ path('fos_user_security_logout') }}">{{ 'navbar.logout'|trans }}</a></li>
                     {% else %}
                         <li><a href="{{ path('fos_user_security_login') }}">{{ 'navbar.login'|trans }}</a></li>

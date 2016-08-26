@@ -183,7 +183,7 @@ class TagsController
                 $this->translator->trans('tags.messages.success.add')
             );
             return new RedirectResponse(
-                $this->router->generate('tags-index')
+                $this->router->generate('admin-tags-index')
             );
         }
 
@@ -212,7 +212,7 @@ class TagsController
                 $this->translator->trans('tags.messages.tag_not_found')
             );
             return new RedirectResponse(
-                $this->router->generate('tags-add')
+                $this->router->generate('admin-tags-index')
             );
         }
 

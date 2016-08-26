@@ -192,7 +192,7 @@ class PostsController
                 $this->translator->trans('posts.messages.success.edit')
             );
             return new RedirectResponse(
-                $this->router->generate('posts-index')
+                $this->router->generate('admin-posts-index')
             );
         }
 
@@ -221,7 +221,7 @@ class PostsController
             $this->translator->trans('posts.messages.success.delete')
         );
         return new RedirectResponse(
-            $this->router->generate('posts-index')
+            $this->router->generate('admin-posts-index')
         );
     }
 
@@ -242,6 +242,28 @@ class PostsController
     }
 
     /**
+     * @Route("admin/posts/{id}/comments", name="admin-posts-comments-index")
+     * @Route("admin/posts/{id}/comments/", name="admin-posts-comments-index")
+     * @ParamConverter("post", class="AppBundle:Post")
+     */
+    public function showCommentsAction(Request $request, Post $post = null)
+    {
+        if (!$post) {
+            throw new NotFoundHttpException('Post not found!');
+        }
+
+        $comments = $post->getComments();
+
+        return $this->templating->renderResponse(
+            'AppBundle:posts:showComments.html.twig',
+            array(
+                'post' => $post,
+                'comments' => $comments
+            )
+        );
+    }
+
+    /**
      * View action.
      *
      * @Route("admin/posts/view/{id}", name="admin-posts-view")
@@ -254,6 +276,10 @@ class PostsController
      */
     public function viewAction(Request $request, Post $post = null)
     {
+
+        if (!$post) {
+            throw new NotFoundHttpException('Post not found!');
+        }
         $user = $this->securityContext->getToken()->getUser();
 
         $postId = $post->getId();

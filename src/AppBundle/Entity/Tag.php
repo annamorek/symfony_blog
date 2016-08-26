@@ -45,6 +45,7 @@ class Tag
 
     /**
      * @ORM\ManyToMany(targetEntity="Post", mappedBy="tags")
+     *
      */
     private $posts;
 

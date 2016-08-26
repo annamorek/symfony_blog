@@ -21,7 +21,7 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
      */
     private $comments;
 
@@ -43,7 +43,6 @@ class User extends BaseUser
     public function addComment(\AppBundle\Entity\Comment $comments)
     {
         $this->comments[] = $comments;
-
         return $this;
     }
 

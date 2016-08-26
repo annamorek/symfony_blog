@@ -194,6 +194,11 @@ class UsersController
      */
     public function editAction(Request $request, User $user = null)
     {
+
+        if (!$user) {
+            throw new NotFoundHttpException('User not found!');
+        }
+
             $userForm = $this->formFactory->create(
                 new UserType(),
                 $user,
