@@ -1,6 +1,8 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block body %}
+    {% include 'AppBundle::header.html.twig' %}
+
     <h2>
         {{ 'posts.views.index.title'|trans }}
         {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
