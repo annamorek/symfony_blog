@@ -1,8 +1,6 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block body %}
-    {% include 'AppBundle::header.html.twig' %}
-
     <h2>
         {{ 'posts.views.index.title'|trans }}
         {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
@@ -30,16 +28,14 @@
                             {% endfor %}
                         </td>
                         <td>
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
-
-                        <a class="" href="{{ path('admin-posts-view', { 'id' : post.id }) }}">{{ 'show'|trans }}</a>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
+                            <a class="" href="{{ path('admin-posts-view', { 'id' : post.id }) }}">{{ 'show'|trans }}</a>
                             <a class="" href="{{ path('admin-posts-edit', { 'id' : post.id }) }}">{{ 'edit'|trans }}</a>
                             <a class="" href="{{ path('admin-posts-delete', { 'id' : post.id }) }}">{{ 'delete'|trans }}</a>
                             <a class="" href="{{ path('admin-posts-comments-index', { 'id' : post.id }) }}">{{ 'showComments'|trans }}</a>
                         {% else %}
                             <a class="" href="{{ path('posts-view', { 'id' : post.id }) }}">{{ 'show'|trans }}</a>
-
-                            {% endif %}
+                        {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

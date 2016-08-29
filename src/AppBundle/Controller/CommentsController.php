@@ -108,7 +108,7 @@ class CommentsController
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY') == true) {
             $this->session->getFlashBag()->set(
                 'warning',
-                $this->translator->trans('comments.no_access')
+                $this->translator->trans('no_access')
             );
             return new RedirectResponse(
                 $this->router->generate('homepage')
@@ -194,7 +194,7 @@ class CommentsController
         } else {
             $this->session->getFlashBag()->set(
                 'warning',
-                $this->translator->trans('no access')
+                $this->translator->trans('no_access')
             );
             return new RedirectResponse(
                 $this->router->generate('homepage')
@@ -228,12 +228,12 @@ class CommentsController
                 $this->translator->trans('comments.messages.success.delete')
             );
             return new RedirectResponse(
-                $this->router->generate('comments-index')
+                $this->router->generate('admin-comments-index')
             );
         } else {
             $this->session->getFlashBag()->set(
                 'warning',
-                $this->translator->trans('no access')
+                $this->translator->trans('no_access')
             );
             return new RedirectResponse(
                 $this->router->generate('homepage')

@@ -2,31 +2,30 @@
 {% block body %}
     <div class="post-content">
         <h2>{{ post.topic }}</h2>
+        <p>Dodano: {{ post.CreatedAt|date('d-m-Y') }}</p>
         <p>{{ post.content }}</p>
     </div>
-    <div class="comments">
+    <div class="comments well col-md-8 col-md-offset-2">
         <h2>Comments</h2>
         {% for comment in comments %}
             {% if comment.enabled == true %}
-                <div class="well">
-                    {% if is_granted('ROLE_ADMIN') or (app.user != NULL and app.user.id ==  comment.user.id) %}
-                        <a class="" href="{{ path('comments-edit', { 'id' : comment.id }) }}">{{ 'edit'|trans }}</a>
-                    {% endif %}
-                    <p>{{ comment.content }}</p>
-                    <p>{{ comment.user }}</p>
-                    <p>{{ comment.CreatedAt|date('d-m-Y') }}</p>
-                </div>
+                {% if is_granted('ROLE_ADMIN') or (app.user != NULL and app.user.id ==  comment.user.id) %}
+                    <a class="" href="{{ path('comments-edit', { 'id' : comment.id }) }}">{{ 'edit'|trans }}</a>
+                {% endif %}
+                <p>{{ comment.content }}</p>
+                <p>Dodał: <b>{{ comment.user }}</b></p>
+                <p>Data dodania: {{ comment.CreatedAt|date('d-m-Y') }}</p>
+                <hr />
             {% endif %}
-
         {% endfor %}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_USER') %}
+            <div class="col-md-4 col-md-offset-3">
+                <h2>{{ 'comments.views.add.title'|trans }}</h2>
+                <div>{{ form_errors(form) }}</div>
+                {{ form(form, {'method': 'POST'}) }}
+            </div>
+        {% else %}
+            <p>Register or login to add comments</p>
+        {% endif %}
     </div>
-    {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_USER') %}
-        <div class="col-md-4 col-md-offset-4">
-            <h2>{{ 'comments.views.add.title'|trans }}</h2>
-            <div>{{ form_errors(form) }}</div>
-            {{ form(form, {'method': 'POST'}) }}
-        </div>
-    {% else %}
-        <p>Register or login to add comments</p>
-    {% endif %}
 {% endblock %}

@@ -351,7 +351,7 @@ class PostsController
         if ($userRole !== 'ROLE_ADMIN') {
             $this->session->getFlashBag()->set(
                 'notice',
-                $this->translator->trans('no-access')
+                $this->translator->trans('no_access')
             );
             return new RedirectResponse(
                 $this->router->generate('homepage')

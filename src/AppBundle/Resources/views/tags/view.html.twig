@@ -14,7 +14,7 @@
         {% for post in posts %}
             <tr>
                 <td>{{  post.topic }}</td>
-                <td><a class="" href="{{ path('posts-view', { 'id' : post.id }) }}">{{ 'show'|trans }}</a></td>
+                <td><a class="" href="{{ path('posts-view', { 'id' : post.id }) }}">{{ 'show_post'|trans }}</a></td>
             </tr>
         {% endfor %}
         </tbody>

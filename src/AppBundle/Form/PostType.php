@@ -60,7 +60,7 @@ class PostType extends AbstractType
                 'checkbox',
                 array(
                     'label' => 'Opublikowane',
-                    'required' => false
+                    'required' => false,
                 )
             );
             $builder->add(

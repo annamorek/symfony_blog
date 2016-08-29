@@ -7,40 +7,236 @@
                 <target>Witaj!</target>
             </trans-unit>
             <trans-unit id="2">
+                <source>no_access</source>
+                <target>Nie masz tu dostepu.!</target>
+            </trans-unit>
+            <trans-unit id="3">
                 <source>posts.views.add.title</source>
                 <target>Dodaj post.</target>
             </trans-unit>
-            <trans-unit id="3">
+            <trans-unit id="4">
                 <source>posts.messages.success.edit</source>
                 <target>Post edytowany.</target>
             </trans-unit>
-            <trans-unit id="4">
+            <trans-unit id="5">
+                <source>posts.messages.success.delete</source>
+                <target>Post usunięty.</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>posts.messages.post_added</source>
+                <target>Dodano post.</target>
+            </trans-unit>
+            <trans-unit id="7">
                 <source>posts.views.index.title</source>
                 <target>Lista postów</target>
             </trans-unit>
-            <trans-unit id="5">
+            <trans-unit id="8">
                 <source>posts.views.index.table.topic</source>
                 <target>Tytuł</target>
             </trans-unit>
-            <trans-unit id="6">
+            <trans-unit id="9">
                 <source>posts.views.index.table.content</source>
                 <target>Zawartość</target>
             </trans-unit>
-            <trans-unit id="7">
+            <trans-unit id="10">
                 <source>posts.views.index.table.created_at</source>
                 <target>Data utworzenia</target>
             </trans-unit>
-            <trans-unit id="8">
+            <trans-unit id="11">
                 <source>posts.views.index.table.tags</source>
                 <target>Tagi</target>
             </trans-unit>
-            <trans-unit id="9">
+            <trans-unit id="12">
                 <source>posts.views.index.table.action</source>
                 <target>Akcje</target>
             </trans-unit>
-            <trans-unit id="10">
+            <trans-unit id="13">
+                <source>posts.views.add.title</source>
+                <target>Dodaj post</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>posts.views.edit.title</source>
+                <target>Edytuj post</target>
+            </trans-unit>
+            <trans-unit id="15">
                 <source>posts.messages.success.delete</source>
                 <target>Usunięto post.</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>comments.messages.comment_added</source>
+                <target>Dodano komentarz.</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>comments.messages.success.edit</source>
+                <target>Edytowano komentarz.</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>comments.messages.success.delete</source>
+                <target>Usunięto komentarz.</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>tags.messages.tag_not_found</source>
+                <target>Nie znaleziono taga.</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>tags.messages.success.edit</source>
+                <target>Edytowano tag.</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>tags.messages.success.delete</source>
+                <target>Usunięto tag.</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>users.messages.success.added</source>
+                <target>Dodano użytkownika.</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>users.messages.success.edit</source>
+                <target>Edytowano użytkownika.</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>users.messages.success.delete</source>
+                <target>Usunięto użytkownika.</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>admin.user_role.not_found</source>
+                <target>Nie znaleziono użytkownika..</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>user.messages.cannot_change_role_currently_logged_id</source>
+                <target>Nie można zmienić roli aktualnie zalogowanemu użytkownikowi..</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>admin.user_role.change.success</source>
+                <target>Zmieniono rolę.</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>comments.views.add.title</source>
+                <target>Dodaj komentarz.</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>comments.views.edit.title</source>
+                <target>Dodaj komentarz.</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>comments.views.not-enabled-index.title</source>
+                <target>Komentarze do akcepatcji.</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>comments.views.index.table.topic</source>
+                <target>Komentarze do akcepatcji.</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>comments.views.index.table.post</source>
+                <target>Komentarze do akcepatcji.</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>comments.views.index.table.date</source>
+                <target>Komentarze do akcepatcji.</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>comments.views.index.table.enabled</source>
+                <target>Komentarze do akceptacji.</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>comments.views.index.no_comments</source>
+                <target>Brak komentarzy.</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>tags.views.add.title</source>
+                <target>Dodaj tag.</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>tags.views.edit.title</source>
+                <target>Edytuj tag.</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>tags.views.index.table.name</source>
+                <target>Nazwa</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>tags.views.index.table.action</source>
+                <target>Akcja</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>tags.views.index.no_tags</source>
+                <target>Brak tagów.</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>view</source>
+                <target>Zobacz</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>show_posts</source>
+                <target>Zobacz posty</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>show_post</source>
+                <target>Zobacz post</target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>edit</source>
+                <target>Edytuj</target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>delete</source>
+                <target>Usuń</target>
+            </trans-unit>
+            <trans-unit id="46">
+                <source>showComments</source>
+                <target>Pokaż komentarze</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>users.add.title</source>
+                <target>Dodaj użytkownika</target>
+            </trans-unit>
+            <trans-unit id="48">
+                <source>users.edit.title</source>
+                <target>Edytuj użytkownika</target>
+            </trans-unit>
+            <trans-unit id="49">
+                <source>new_user</source>
+                <target>Nowy użytkownik</target>
+            </trans-unit>
+            <trans-unit id="50">
+                <source>navbar.posts.index</source>
+                <target>Lista postów</target>
+            </trans-unit>
+            <trans-unit id="51">
+                <source>navbar.users.index</source>
+                <target>Lista użytkowników</target>
+            </trans-unit>
+            <trans-unit id="52">
+                <source>navbar.tags-index</source>
+                <target>Lista tagów</target>
+            </trans-unit>
+            <trans-unit id="53">
+                <source>navbar.comments-index-to-enable</source>
+                <target>Komentarze do akceptacji</target>
+            </trans-unit>
+            <trans-unit id="54">
+                <source>navbar.user.comments</source>
+                <target>Komentarze do akceptacji</target>
+            </trans-unit>
+            <trans-unit id="55">
+                <source>navbar.tags.index</source>
+                <target>Lista tagów</target>
+            </trans-unit>
+            <trans-unit id="56">
+                <source>navbar.profile</source>
+                <target>Profil</target>
+            </trans-unit>
+            <trans-unit id="57">
+                <source>navbar.login</source>
+                <target>Zaloguj</target>
+            </trans-unit>
+            <trans-unit id="58">
+                <source>navbar.logout</source>
+                <target>Wyloguj</target>
+            </trans-unit>
+            <trans-unit id="59">
+                <source>navbar.register</source>
+                <target>Zarejestruj</target>
             </trans-unit>
         </body>
     </file>

@@ -69,14 +69,12 @@ class Comment
     /**
      * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
-     * @Assert\NotBlank(groups={"comment-default"})
      */
     private $post;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * @Assert\NotBlank(groups={"comment-default"})
      */
     private $user;
 
