@@ -307,7 +307,7 @@ class PostsController
                 $this->commentsModel->save($comment);
                 $this->session->getFlashBag()->set(
                     'success',
-                    $this->translator->trans('comments.messages.success.edit')
+                    $this->translator->trans('comments.messages.success.add')
                 );
                 return new RedirectResponse(
                     $this->router->generate('posts-view', array('id' => $postId))

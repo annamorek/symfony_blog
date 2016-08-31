@@ -1,7 +1,7 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block body %}
-    <h2>Comments for post {{ post.topic }}</h2>
+    <h2>Komentarze dla posta {{ post.topic }}</h2>
     {% if comments %}
         <table class="table">
             <thead>
@@ -17,14 +17,14 @@
                     <td>{{ comment.content ? comment.content }}</td>
                     <td>{{ comment.CreatedAt ? comment.CreatedAt|date('d-m-Y') }}</td>
                     {% if comment.enabled == 1 %}
-                        <td>Enabled</td>
+                        <td>Zatwierdzone</td>
                     {% else %}
-                        <td>Not enabled</td>
+                        <td>Nie zatwierdzone</td>
                     {% endif %}
                     <td>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
                             <a class="" href="{{ path('admin-comments-view', { 'id' : comment.id }) }}">{{ 'show'|trans }}</a>
-                            <a class="" href="{{ path('comments-edit', { 'id' : comment.id }) }}">{{ 'edit'|trans }}</a>
+                            <a class="" href="{{ path('comments-edit', { 'id' : comment.id }) }}">{{ 'edit'|trans }} / akceptuj</a>
                             <a class="" href="{{ path('comments-delete', { 'id' : comment.id }) }}">{{ 'delete'|trans }}</a>
                         {% endif %}
                     </td>

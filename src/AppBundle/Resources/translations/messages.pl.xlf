@@ -120,23 +120,23 @@
             </trans-unit>
             <trans-unit id="30">
                 <source>comments.views.not-enabled-index.title</source>
-                <target>Komentarze do akcepatcji.</target>
+                <target>Komentarze do akceptacji</target>
             </trans-unit>
             <trans-unit id="31">
                 <source>comments.views.index.table.topic</source>
-                <target>Komentarze do akcepatcji.</target>
+                <target>Temat</target>
             </trans-unit>
             <trans-unit id="32">
                 <source>comments.views.index.table.post</source>
-                <target>Komentarze do akcepatcji.</target>
+                <target>Post</target>
             </trans-unit>
             <trans-unit id="33">
                 <source>comments.views.index.table.date</source>
-                <target>Komentarze do akcepatcji.</target>
+                <target>Data</target>
             </trans-unit>
             <trans-unit id="34">
                 <source>comments.views.index.table.enabled</source>
-                <target>Komentarze do akceptacji.</target>
+                <target>Zatwierdzone</target>
             </trans-unit>
             <trans-unit id="35">
                 <source>comments.views.index.no_comments</source>
@@ -216,7 +216,7 @@
             </trans-unit>
             <trans-unit id="54">
                 <source>navbar.user.comments</source>
-                <target>Komentarze do akceptacji</target>
+                <target>Twoje komentarze</target>
             </trans-unit>
             <trans-unit id="55">
                 <source>navbar.tags.index</source>
@@ -237,6 +237,22 @@
             <trans-unit id="59">
                 <source>navbar.register</source>
                 <target>Zarejestruj</target>
+            </trans-unit>
+            <trans-unit id="60">
+                <source>tags.views.index.title</source>
+                <target>Lista tagów</target>
+            </trans-unit>
+            <trans-unit id="61">
+                <source>comments.messages.success.add</source>
+                <target>Dodano komentarz. Oczekuje na akceptację przez admina.</target>
+            </trans-unit>
+            <trans-unit id="62">
+                <source>comments.views.user.title</source>
+                <target>Twoje komentarze</target>
+            </trans-unit>
+            <trans-unit id="63">
+                <source>show</source>
+                <target>Pokaż</target>
             </trans-unit>
         </body>
     </file>

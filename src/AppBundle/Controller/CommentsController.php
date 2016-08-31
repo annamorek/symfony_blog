@@ -182,9 +182,16 @@ class CommentsController
                     'success',
                     $this->translator->trans('comments.messages.success.edit')
                 );
-                return new RedirectResponse(
-                    $this->router->generate('admin-posts-view', array('id' => $postId))
-                );
+                if ($this->securityContext->isGranted('ROLE_ADMIN')) {
+                    return new RedirectResponse(
+                        $this->router->generate('admin-posts-view', array('id' => $postId))
+                    );
+                } else {
+                    return new RedirectResponse(
+                        $this->router->generate('posts-with-user-comments-view', array('id' => $postId))
+                    );
+                }
+
             }
 
             return $this->templating->renderResponse(
@@ -227,9 +234,16 @@ class CommentsController
                 'success',
                 $this->translator->trans('comments.messages.success.delete')
             );
-            return new RedirectResponse(
-                $this->router->generate('admin-comments-index')
-            );
+            if ($this->securityContext->isGranted('ROLE_ADMIN')) {
+                return new RedirectResponse(
+                    $this->router->generate('admin-comments-index')
+                );
+            } else {
+                return new RedirectResponse(
+                    $this->router->generate('posts-with-user-comments-view')
+                );
+            }
+
         } else {
             $this->session->getFlashBag()->set(
                 'warning',

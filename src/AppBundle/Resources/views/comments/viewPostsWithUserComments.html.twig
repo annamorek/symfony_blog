@@ -22,9 +22,9 @@
                         <td>{{ comment.content ? comment.content }}</td>
                         <td>{{ comment.CreatedAt ? comment.CreatedAt|date('d-m-Y') }}</td>
                         {% if comment.enabled == 1 %}
-                            <td>Enabled</td>
+                            <td>Zatwierdzony</td>
                         {% else %}
-                            <td>Not enabled</td>
+                            <td>Nie zatwierdzony</td>
                         {% endif %}
                         <td>
                             <a class="" href="{{ path('comments-edit', { 'id' : comment.id }) }}">{{ 'edit'|trans }}</a>
