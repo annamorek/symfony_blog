@@ -42,4 +42,9 @@ class Post extends EntityRepository
         $this->_em->flush();
     }
 
+    public function findAll()
+    {
+        return $this->findBy(array(), array('created_at' => 'DESC'));
+    }
+
 }
