@@ -18,8 +18,8 @@ class User extends EntityRepository
 {
     /**
      * Save users object.
-     * @param \AppBundle\Entity\User $users
-     * @param
+     * @param \AppBundle\Entity\User $user
+     *
      */
     public function save(\Appbundle\Entity\User $user)
     {

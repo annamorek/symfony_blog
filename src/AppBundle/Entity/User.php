@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * User entity.
+ *
+ * @copyright (c) 2016 Anna Morek
+ */
 namespace AppBundle\Entity;
 
 use FOS\UserBundle\Entity\User as BaseUser;
@@ -7,6 +11,8 @@ use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * User entity
+ *
  * @ORM\Entity
  * @ORM\Table(name="fos_users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\User")
@@ -14,6 +20,8 @@ use Doctrine\ORM\Mapping as ORM;
 class User extends BaseUser
 {
     /**
+     * Id
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -21,6 +29,8 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * Comments.
+     *
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
      */
     private $comments;
@@ -59,7 +69,7 @@ class User extends BaseUser
     /**
      * Get comments
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getComments()
     {

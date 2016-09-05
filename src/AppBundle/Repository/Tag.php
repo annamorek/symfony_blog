@@ -18,8 +18,7 @@ class Tag extends EntityRepository
 {
     /**
      * Save tags object.
-     * @param \AppBundle\Entity\Tag $tags
-     * @param
+     * @param \AppBundle\Entity\Tag $tag
      */
     public function save(\Appbundle\Entity\Tag $tag)
     {

@@ -254,6 +254,10 @@
                 <source>show</source>
                 <target>Pokaż</target>
             </trans-unit>
+            <trans-unit id="64">
+                <source>registration.flash.user_created</source>
+                <target>Stworzono użytkownika</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -24,6 +24,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Tag
 {
     /**
+     * Id.
+     *
      * @ORM\Id
      * @ORM\Column(
      *     type="integer",
@@ -37,6 +39,8 @@ class Tag
     private $id;
 
     /**
+     * Name.
+     *
      * @ORM\Column(
      *     name="name",
      *     type="string",
@@ -49,6 +53,7 @@ class Tag
     private $name;
 
     /**
+     * Posts.
      * @ORM\ManyToMany(targetEntity="Post", mappedBy="tags")
      *
      */
@@ -65,7 +70,7 @@ class Tag
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -88,7 +93,7 @@ class Tag
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -122,7 +127,7 @@ class Tag
     /**
      * Get posts
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPosts()
     {

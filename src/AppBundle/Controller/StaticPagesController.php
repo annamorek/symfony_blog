@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * StaticPagesController.
+ *
+ * @copyright (c) 2016 Anna Morek
+ */
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -54,6 +58,7 @@ class StaticPagesController
      * @param EngineInterface $templating
      * @param Translator $translator
      * @param SecurityContext $securityContext
+     * @param ObjectRepository $postsModel
      */
     public function __construct(
         EngineInterface $templating,

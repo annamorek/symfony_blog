@@ -25,6 +25,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Post
 {
     /**
+     * Id
+     *
      * @ORM\Id
      * @ORM\Column(
      *     type="integer",
@@ -38,6 +40,8 @@ class Post
     private $id;
 
     /**
+     * Topic
+     *
      * @ORM\Column(
      *     name="topic",
      *     type="string",
@@ -50,6 +54,8 @@ class Post
     private $topic;
 
     /**
+     * Content.
+     *
      * @ORM\Column(
      *     name="content",
      *     type="text",
@@ -61,6 +67,8 @@ class Post
     private $content;
 
     /**
+     * Enabled
+     *
      * @ORM\Column(
      *     name="enabled",
      *     type="boolean",
@@ -94,6 +102,8 @@ class Post
     protected $tags;
 
     /**
+     * Comments
+     *
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"remove"})
      */
     private $comments;
@@ -111,7 +121,7 @@ class Post
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -134,7 +144,7 @@ class Post
     /**
      * Get topic
      *
-     * @return string 
+     * @return string
      */
     public function getTopic()
     {
@@ -157,7 +167,7 @@ class Post
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -180,7 +190,7 @@ class Post
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEnabled()
     {
@@ -203,7 +213,7 @@ class Post
     /**
      * Get created_at
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -236,7 +246,7 @@ class Post
     /**
      * Get tags
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTags()
     {
@@ -269,7 +279,7 @@ class Post
     /**
      * Get comments
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getComments()
     {

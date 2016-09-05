@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * ChangeRole Type.
+ *
+ * @copyright (c) 2016 Anna Morek
+ */
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +18,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class ChangeRoleType extends AbstractType
 {
-
     /**
      * Form builder.
      *

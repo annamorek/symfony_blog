@@ -92,5 +92,4 @@ class TagDataTransformer implements DataTransformerInterface
 
         return $result;
     }
-
 }

@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * PostType entity.
+ *
+ * @copyright (c) 2016 Anna Morek
+ */
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;

@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Comments controller.
+ *
+ * @copyright (c) 2016 Anna Morek
+ */
 namespace AppBundle\Controller;
 
 use AppBundle\Form\CommentType;
@@ -72,9 +76,13 @@ class CommentsController
 
     /**
      * CommentsController constructor.
-     *
-     * @param EngineInterface $templating Templating engine
-     * @param ObjectRepository $commentsModel Model object
+     * @param ObjectRepository $commentsModel
+     * @param FormFactory $formFactory
+     * @param RouterInterface $router
+     * @param Session $session
+     * @param EngineInterface $templating
+     * @param Translator $translator
+     * @param SecurityContext $securityContext
      */
     public function __construct(
         ObjectRepository $commentsModel,
@@ -153,7 +161,8 @@ class CommentsController
      * @Route("/comments/edit/{id}/", name="comments-edit")
      * @ParamConverter("comment", class="AppBundle:Comment")
      * @param Request $request
-     * @return Response A Response instance
+     * @param Comment|null $comment
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Comment $comment = null)
     {
@@ -164,7 +173,8 @@ class CommentsController
         $postId = $comment->getPost()->getId();
         $user = $this->securityContext->getToken()->getUser();
 
-        if ((int)($user->getId()) === (int)($comment->getUser()->getId()) || $this->securityContext->isGranted('ROLE_ADMIN')) {
+        if ((int)($user->getId()) === (int)($comment->getUser()->getId())
+            || $this->securityContext->isGranted('ROLE_ADMIN')) {
             $commentForm = $this->formFactory->create(
                 new CommentType($user),
                 $comment,
@@ -191,7 +201,6 @@ class CommentsController
                         $this->router->generate('posts-with-user-comments-view', array('id' => $postId))
                     );
                 }
-
             }
 
             return $this->templating->renderResponse(
@@ -228,7 +237,8 @@ class CommentsController
 
         $user = $this->securityContext->getToken()->getUser();
 
-        if ((int)($user->getId()) === (int)($comment->getUser()->getId()) || $this->securityContext->isGranted('ROLE_ADMIN')) {
+        if ((int)($user->getId()) === (int)($comment->getUser()->getId())
+            || $this->securityContext->isGranted('ROLE_ADMIN')) {
             $this->commentsModel->delete($comment);
             $this->session->getFlashBag()->set(
                 'success',
@@ -243,7 +253,6 @@ class CommentsController
                     $this->router->generate('posts-with-user-comments-view')
                 );
             }
-
         } else {
             $this->session->getFlashBag()->set(
                 'warning',
@@ -261,6 +270,7 @@ class CommentsController
      * @Route("admin/comments/index", name="admin-comments-index")
      * @Route("admin/comments/index/", name="admin-comments-index")
      * @param Request $request
+     * @return Response
      */
     public function indexAction(Request $request)
     {
@@ -274,10 +284,13 @@ class CommentsController
     }
 
     /**
+     * View action
+     *
      * @Route("admin/comments/view/{id}", name="admin-comments-view")
      * @Route("admin/comments/view/{id}/", name="admin-comments-view")
      * @param Request $request
      * @param Comment|null $comment
+     * @return Response
      * @ParamConverter("comment", class="AppBundle:Comment")
      */
     public function viewAction(Request $request, Comment $comment = null)
@@ -291,10 +304,12 @@ class CommentsController
     }
 
     /**
+     * Posts with suer comments.
+     *
      * @Route("/comments/view/", name="posts-with-user-comments-view")
      * @Route("/comments/view", name="posts-with-user-comments-view")
      * @param Request $request
-     * @param Comment|null $comment
+     * @return Response
      */
     public function viewPostsWithUserCommentsAction(Request $request)
     {

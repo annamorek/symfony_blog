@@ -36,7 +36,6 @@ class TagType extends AbstractType
                 'id',
                 'hidden',
                 array('mapped' => false)
-
             );
             $builder->add(
                 'name',

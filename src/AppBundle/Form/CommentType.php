@@ -1,12 +1,15 @@
 <?php
-
+/**
+ * Comment type.
+ *
+ * @copyright (c) 2016 Anna Morek
+ */
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use AppBundle\Entity\User;
-
 
 /**
  * Class CommentType.
@@ -63,8 +66,7 @@ class CommentType extends AbstractType
                     'attr'=> array('class'=>'form-control')
                 )
             );
-            if ($userRole === 'ROLE_ADMIN')
-            {
+            if ($userRole === 'ROLE_ADMIN') {
                 $builder->add(
                     'enabled',
                     'checkbox',

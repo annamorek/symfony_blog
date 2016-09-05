@@ -77,13 +77,12 @@ class TagsController
 
     /**
      * TagsController constructor.
-     *
-     * @param Translator $translator Translator
-     * @param EngineInterface $templating Templating engine
-     * @param Session $session Session
+     * @param ObjectRepository $model
+     * @param FormFactory $formFactory
      * @param RouterInterface $router
-     * @param ObjectRepository $model Model object
-     * @param FormFactory $formFactory Form factory
+     * @param Session $session
+     * @param EngineInterface $templating
+     * @param Translator $translator
      */
     public function __construct(
         ObjectRepository $model,
@@ -200,9 +199,9 @@ class TagsController
      * @Route("admin/tags/edit/{id}/")
      * @ParamConverter("tag", class="AppBundle:Tag")
      *
-     * @param Tag $tag Tag entity
      * @param Request $request
-     * @return Response A Response instance
+     * @param Tag|null $tag
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Tag $tag = null)
     {
@@ -252,9 +251,9 @@ class TagsController
      * @Route("admin/tags/delete/{id}/")
      * @ParamConverter("tag", class="AppBundle:Tag")
      *
-     * @param Tag $tag Tag entity
      * @param Request $request
-     * @return Response A Response instance
+     * @param Tag|null $tag
+     * @return RedirectResponse
      */
     public function deleteAction(Request $request, Tag $tag = null)
     {
@@ -286,5 +285,4 @@ class TagsController
         );
 
     }
-
 }

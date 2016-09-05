@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Users controller.
+ *
+ * @copyright (c) 2016 Anna Morek
+ */
 namespace AppBundle\Controller;
 
 use AppBundle\Form\ChangeRoleType;
@@ -174,7 +178,6 @@ class UsersController
                 'success',
                 $this->translator->trans('users.messages.success.added')
             );
-
         }
         return $this->templating->renderResponse(
             'AppBundle:users:add.html.twig',
@@ -199,24 +202,23 @@ class UsersController
             throw new NotFoundHttpException('User not found!');
         }
 
-            $userForm = $this->formFactory->create(
-                new UserType(),
-                $user,
-                array(
-                    'edit' => true
-                )
+        $userForm = $this->formFactory->create(
+            new UserType(),
+            $user,
+            array(
+                'edit' => true
+            )
+        );
+
+        $userForm->handleRequest($request);
+
+        if ($userForm->isValid()) {
+            $user = $userForm->getData();
+            $this->userManager->updateUser($user);
+            $this->session->getFlashBag()->set(
+                'success',
+                $this->translator->trans('users.messages.success.edit')
             );
-
-            $userForm->handleRequest($request);
-
-            if ($userForm->isValid()) {
-                $user = $userForm->getData();
-                $this->userManager->updateUser($user);
-                $this->session->getFlashBag()->set(
-                    'success',
-                    $this->translator->trans('users.messages.success.edit')
-                );
-            
         }
         return $this->templating->renderResponse(
             'AppBundle:users:edit.html.twig',
@@ -232,7 +234,7 @@ class UsersController
      * @ParamConverter("user", class="AppBundle:User")
      *
      * @param Request $request
-     * @param Post|null $post
+     * @param User|null $user
      * @return RedirectResponse
      */
     public function deleteAction(Request $request, User $user = null)
@@ -290,7 +292,6 @@ class UsersController
             $choosenRole = $changeRoleForm->getData();
             $user->setRoles(array($choosenRole['role']));
             $this->userManager->updateUser($user);
-
             $this->session->getFlashBag()->set(
                 'success',
                 $this->translator->trans('admin.user_role.change.success')

@@ -25,6 +25,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Comment
 {
     /**
+     * Id
+     *
      * @ORM\Id
      * @ORM\Column(
      *     type="integer",
@@ -38,16 +40,21 @@ class Comment
     private $id;
 
     /**
+     * Content
+     *
      * @ORM\Column(
      *     name="content",
      *     type="text",
      *     nullable=false
      * )
+     * @Assert\NotBlank(groups={"comment-default"})
      * @Assert\Length(min=3, max=500, groups={"comment-default"})
      */
     private $content;
 
     /**
+     * Enabled
+     *
      * @ORM\Column(
      *     name="enabled",
      *     type="boolean",
@@ -67,12 +74,16 @@ class Comment
     protected $created_at;
 
     /**
+     * Post array
+     *
      * @ORM\ManyToOne(targetEntity="Post", inversedBy="comments")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     private $post;
 
     /**
+     * User array
+     *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
@@ -87,11 +98,9 @@ class Comment
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
     /**
      * Get id
-     *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -100,21 +109,19 @@ class Comment
 
     /**
      * Set content
-     *
      * @param string $content
      * @return Comment
      */
     public function setContent($content)
     {
         $this->content = $content;
-
         return $this;
     }
 
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -137,7 +144,7 @@ class Comment
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEnabled()
     {
@@ -160,7 +167,7 @@ class Comment
     /**
      * Get created_at
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -183,7 +190,7 @@ class Comment
     /**
      * Get post
      *
-     * @return \AppBundle\Entity\Post 
+     * @return \AppBundle\Entity\Post
      */
     public function getPost()
     {
@@ -206,7 +213,7 @@ class Comment
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User 
+     * @return \AppBundle\Entity\User
      */
     public function getUser()
     {

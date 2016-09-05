@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Posts Controller.
+ *
+ * @copyright (c) 2016 Anna Morek
+ */
 namespace AppBundle\Controller;
 
 use AppBundle\Form\PostType;
@@ -94,9 +98,15 @@ class PostsController
 
     /**
      * PostsController constructor.
-     *
-     * @param EngineInterface $templating Templating engine
-     * @param ObjectRepository $postsModel Model object
+     * @param ObjectRepository $postsModel
+     * @param ObjectRepository $tagsModel
+     * @param FormFactory $formFactory
+     * @param RouterInterface $router
+     * @param Session $session
+     * @param EngineInterface $templating
+     * @param Translator $translator
+     * @param SecurityContext $securityContext
+     * @param ObjectRepository $commentsModel
      */
     public function __construct(
         ObjectRepository $postsModel,
@@ -171,7 +181,8 @@ class PostsController
      * @Route("admin/posts/edit/{id}/", name="admin-posts-edit")
      * @ParamConverter("post", class="AppBundle:Post")
      * @param Request $request
-     * @return Response A Response instance
+     * @param Post|null $post
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Post $post = null)
     {
@@ -227,8 +238,12 @@ class PostsController
     }
 
     /**
+     * Index action.
+     *
      * @Route("admin/posts/index", name="admin-posts-index")
      * @Route("admin/posts/index/", name="admin-posts-index")
+     * @param Request $request
+     * @return Response
      */
     public function indexAction(Request $request)
     {
@@ -243,9 +258,14 @@ class PostsController
     }
 
     /**
+     * Show comments action.
+     *
      * @Route("admin/posts/{id}/comments", name="admin-posts-comments-index")
      * @Route("admin/posts/{id}/comments/", name="admin-posts-comments-index")
      * @ParamConverter("post", class="AppBundle:Post")
+     * @param Request $request
+     * @param Post|null $post
+     * @return Response
      */
     public function showCommentsAction(Request $request, Post $post = null)
     {
@@ -271,7 +291,9 @@ class PostsController
      * @Route("admin/posts/view/{id}/", name="admin-posts-view")
      * @Route("/posts/view/{id}/", name="posts-view")
      * @ParamConverter("post", class="AppBundle:Post")
-     * @param post $post Post entity
+     * @param Request $request
+     * @param Post|null $post
+     * @return RedirectResponse|Response
      * @throws NotFoundHttpException
      * @return Response A Response instance
      */
@@ -287,8 +309,7 @@ class PostsController
         $user = $this->getUser();
         $comments = $post->getComments();
 
-        if (($this->securityContext->isGranted('ROLE_USER') || ($this->securityContext->isGranted('ROLE_ADMIN'))))
-        {
+        if (($this->securityContext->isGranted('ROLE_USER') || ($this->securityContext->isGranted('ROLE_ADMIN')))) {
             $commentForm = $this
                 ->formFactory
                 ->create(
@@ -336,13 +357,18 @@ class PostsController
     /**
      * Get usr id
      *
-     * @return int
+     * @return mixed
      */
     private function getUser()
     {
         return $this->securityContext->getToken()->getUser();
     }
 
+    /**
+     * Verify admin.
+     *
+     * @return RedirectResponse
+     */
     private function checkAdmin()
     {
         $userRoles = $this->getRoles();
@@ -359,6 +385,11 @@ class PostsController
         }
     }
 
+    /**
+     * Get Roles.
+     *
+     * @return \Symfony\Component\Security\Core\Role\RoleInterface[]
+     */
     private function getRoles()
     {
         return $this->securityContext->getToken()->getRoles();

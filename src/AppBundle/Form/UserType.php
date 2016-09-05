@@ -32,7 +32,6 @@ class UserType extends AbstractType
             'id',
             'hidden',
             array('mapped' => false)
-
         );
         $builder->add(
             'username',
@@ -82,7 +81,7 @@ class UserType extends AbstractType
                 'required' => false
             )
         );
-          $builder->add(
+        $builder->add(
             'save',
             'submit',
             array(
