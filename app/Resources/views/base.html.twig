@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %}Witaj!{% endblock %}</title>
+    {% block stylesheets %}
+        {% stylesheets '@bootstrap_css' 'bundles/app/css/*' filter='cssrewrite' %}
+            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    {% endblock %}
+</head>
+<body>
+{% include 'AppBundle::navbar.html.twig' %}
+<div class="container">
+    {% include 'AppBundle::flash.html.twig' %}
+    {% block body %}{% endblock %}
+
+</div>
+<footer class="text-center">
+    <hr />
+    <p>Copyright: Anna Fejklowicz</p>
+    <p>Contact information: <a href="mailto:mopso17@gmail.com">
+            mopso17@gmail.com</a>.</p>
+</footer>
+{% block javascripts %}
+    {% javascripts '@jquery' '@bootstrap_js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+</body>
 </html>
