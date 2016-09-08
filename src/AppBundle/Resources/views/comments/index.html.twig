@@ -30,7 +30,7 @@
                             <td>
                                 <a class="btn btn-sm btn-default" href="{{ path('admin-comments-view', { 'id' : comment.id }) }}">{{ 'view'|trans }}</a>
                                 <a class="btn btn-sm btn-default" href="{{ path('comments-edit', { 'id' : comment.id }) }}">{{ 'edit'|trans }} / akceptuj</a>
-                                <a class="btn btn-sm btn-default" href="{{ path('comments-delete', { 'id' : comment.id }) }}">{{ 'delete'|trans }}</a>
+                                <a class="btn btn-sm btn-default" href="{{ path('comments-delete', { 'id' : comment.id }) }}" onclick="return confirm('Na pewno chcesz usunąć komentarz?')">{{ 'delete'|trans }}</a>
                             </td>
                         </tr>
                     {% endif %}
