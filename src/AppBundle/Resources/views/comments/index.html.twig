@@ -19,8 +19,8 @@
                 {% for comment in comments %}
                     {% if comment.enabled == 0 %}
                         <tr>
+                            <td>{{ comment.post.topic ? comment.post.topic|length > 20 ? comment.post.topic|slice(0, 20) ~ '...' : comment.post.topic }}</td>
                             <td>{{ comment.content ? comment.content|length > 20 ? comment.content|slice(0, 20) ~ '...' : comment.content }}</td>
-                            <td>{{ comment.post.topic ? comment.post.topic }}</td>
                             <td>{{ comment.CreatedAt ? comment.CreatedAt|date('d-m-Y') }}</td>
                             {% if comment.enabled == 1 %}
                                 <td>Zatwierdzony</td>
