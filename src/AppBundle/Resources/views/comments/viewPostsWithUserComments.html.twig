@@ -28,7 +28,7 @@
                         {% endif %}
                         <td>
                             <a class="" href="{{ path('comments-edit', { 'id' : comment.id }) }}">{{ 'edit'|trans }}</a>
-                            <a class="" href="{{ path('comments-delete', { 'id' : comment.id }) }}">{{ 'delete'|trans }}</a>
+                            <a class="" href="{{ path('comments-delete', { 'id' : comment.id }) }}" onclick="return confirm('Na pewno chcesz usunąć komentarz?')">{{ 'delete'|trans }}</a>
                         </td>
                     </tr>
                 {% endfor %}
