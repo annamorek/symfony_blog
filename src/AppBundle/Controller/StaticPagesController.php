@@ -76,7 +76,7 @@ class StaticPagesController
      * Index action.
      *
      * @Route("/{page}", defaults={"page": 1}, requirements={"page": "\d+" }, name="homepage")
-     *
+     * @param int $page
      * @throws NotFoundHttpException
      * @return Response A Response instance
      */

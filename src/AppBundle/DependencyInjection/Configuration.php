@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Configuration
+ */
 namespace AppBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;

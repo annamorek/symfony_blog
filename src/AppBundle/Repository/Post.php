@@ -52,6 +52,12 @@ class Post extends EntityRepository
         return $this->findBy(array(), array('created_at' => 'DESC'));
     }
 
+    /**
+     * Get all posts
+     *
+     * @param $currentPage
+     * @return Paginator
+     */
     public function getAllPosts($currentPage)
     {
         // Create our query
