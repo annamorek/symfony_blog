@@ -75,21 +75,30 @@ class StaticPagesController
     /**
      * Index action.
      *
-     * @Route("/", name="homepage")
+     * @Route("/{page}", defaults={"page": 1}, requirements={"page": "\d+" }, name="homepage")
      *
      * @throws NotFoundHttpException
      * @return Response A Response instance
      */
-    public function indexAction()
+    public function indexAction($page = 1)
     {
-        $posts = $this->postsModel->findAll();
+        $posts = $this->postsModel->getAllPosts($page);
         if (!$posts) {
             throw new NotFoundHttpException('Posts not found!');
         }
+
+        $totalPosts = $posts->count();
+        $iterator = $posts->getIterator();
+        $limit = 3;
+        $maxPages = ceil($totalPosts / $limit);
+        $thisPage = $page;
+
         return $this->templating->renderResponse(
             'AppBundle:staticPages:index.html.twig',
             array(
-                'posts' => $posts
+                'posts' => $posts,
+                'maxPages' => $maxPages,
+                'thisPage' => $thisPage
             )
         );
     }

@@ -7,6 +7,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * Class Post.
@@ -49,5 +50,38 @@ class Post extends EntityRepository
     public function findAll()
     {
         return $this->findBy(array(), array('created_at' => 'DESC'));
+    }
+
+    public function getAllPosts($currentPage)
+    {
+        // Create our query
+        $query = $this->createQueryBuilder('p')
+            ->orderBy('p.created_at', 'DESC')
+            ->getQuery();
+
+        // No need to manually get get the result ($query->getResult())
+
+        $paginator = $this->paginate($query, $currentPage);
+
+        return $paginator;
+    }
+
+    /**
+     * Paginate
+     *
+     * @param $dql
+     * @param int $page
+     * @param int $limit
+     * @return Paginator
+     */
+    public function paginate($dql, $page = 1, $limit = 3)
+    {
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit); // Limit
+
+        return $paginator;
     }
 }
