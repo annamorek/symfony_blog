@@ -29,16 +29,16 @@ class PostType extends AbstractType
     {
         $tagDataTransformer = new TagDataTransformer($options['tag_model']);
 
+        $builder->add(
+            'id',
+            'hidden',
+            array('mapped' => false)
+        );
+
         if (isset($options['validation_groups'])
             && count($options['validation_groups'])
             && !in_array('post-delete', $options['validation_groups'])
         ) {
-            $builder->add(
-                'id',
-                'hidden',
-                array('mapped' => false)
-            );
-
             $builder->add(
                 'topic',
                 'text',
@@ -72,16 +72,20 @@ class PostType extends AbstractType
                     ->create('tags', 'text')
                     ->addModelTransformer($tagDataTransformer)
             );
-        }
-        $builder->add(
-            'Zapisz',
-            'submit',
-            array(
-                'label' => 'Zapisz',
-                'attr' => array('class' => 'btn btn-primary btn-save')
 
-            )
-        );
+            $builder->add(
+                'Zapisz',
+                'submit',
+                array(
+                    'label' => 'Zapisz',
+                    'attr' => array('class' => 'btn btn-primary btn-save')
+
+                )
+            );
+        } elseif (in_array('post-delete', $options['validation_groups'])) {
+            $builder->add('Tak', 'submit');
+            $builder->add('Nie', 'submit');
+        }
     }
 
     /**

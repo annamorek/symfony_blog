@@ -1,0 +1,14 @@
+{% extends 'AppBundle::base.html.twig' %}
+{% block body %}
+    <h1>
+    </h1>
+    <div>
+        <h3>{{ 'posts.delete.confirm'|trans }} '{{post.topic}}'?</h3>
+
+        <form action="#" method="post">
+            {{ form_widget(form) }}
+        </form>
+
+
+    </div>
+{% endblock %}

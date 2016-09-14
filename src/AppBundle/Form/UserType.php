@@ -33,61 +33,68 @@ class UserType extends AbstractType
             'hidden',
             array('mapped' => false)
         );
-        $builder->add(
-            'username',
-            'text',
-            array(
-                'label' => 'User name',
-                'required' => true,
-                'max_length' => 128,
-            )
-        );
-        if ($options['edit'] === false) {
+
+        if (in_array('user-delete', $options['validation_groups'])) {
+            $builder->add('Tak', 'submit');
+            $builder->add('Nie', 'submit');
+        } else {
+
             $builder->add(
-                'plainPassword',
+                'username',
                 'text',
                 array(
-                    'label' => 'New password',
+                    'label' => 'User name',
+                    'required' => true,
                     'max_length' => 128,
-                    'required' => true
                 )
             );
-        } else {
+            if ($options['edit'] === false) {
+                $builder->add(
+                    'plainPassword',
+                    'text',
+                    array(
+                        'label' => 'New password',
+                        'max_length' => 128,
+                        'required' => true
+                    )
+                );
+            } else {
+                $builder->add(
+                    'plainPassword',
+                    'text',
+                    array(
+                        'label' => 'New password',
+                        'max_length' => 128,
+                        'required' => false
+                    )
+                );
+            }
             $builder->add(
-                'plainPassword',
+                'email',
                 'text',
                 array(
-                    'label' => 'New password',
+                    'label' => 'Email',
+                    'required' => true,
+                    'max_length' => 128
+                )
+            );
+            $builder->add(
+                'enabled',
+                'checkbox',
+                array(
+                    'label' => 'Enabled',
                     'max_length' => 128,
                     'required' => false
                 )
             );
+            $builder->add(
+                'save',
+                'submit',
+                array(
+                    'label' => 'Save'
+                )
+            );
         }
-        $builder->add(
-            'email',
-            'text',
-            array(
-                'label' => 'Email',
-                'required' => true,
-                'max_length' => 128
-            )
-        );
-        $builder->add(
-            'enabled',
-            'checkbox',
-            array(
-                'label' => 'Enabled',
-                'max_length' => 128,
-                'required' => false
-            )
-        );
-        $builder->add(
-            'save',
-            'submit',
-            array(
-                'label' => 'Save'
-            )
-        );
     }
 
     /**

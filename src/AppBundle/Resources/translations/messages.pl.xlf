@@ -258,6 +258,30 @@
                 <source>registration.flash.user_created</source>
                 <target>Stworzono użytkownika</target>
             </trans-unit>
+            <trans-unit id="65">
+                <source>posts.messages.not_found</source>
+                <target>Post nie istnieje</target>
+            </trans-unit>
+            <trans-unit id="66">
+                <source>posts.delete.confirm</source>
+                <target>Potwierdź usunięcie posta</target>
+            </trans-unit>
+            <trans-unit id="67">
+                <source>tags.delete.confirm</source>
+                <target>Potwierdź usunięcie tagu</target>
+            </trans-unit>
+            <trans-unit id="68">
+                <source>comments.delete.confirm</source>
+                <target>Potwierdź usunięcie komentarza</target>
+            </trans-unit>
+            <trans-unit id="69">
+                <source>users.delete.confirm</source>
+                <target>Potwierdź usunięcie użytkownika</target>
+            </trans-unit>
+            <trans-unit id="70">
+                <source>comments.messages.delete</source>
+                <target>Usunięto komentarz</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

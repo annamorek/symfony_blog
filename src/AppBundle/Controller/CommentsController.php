@@ -239,19 +239,46 @@ class CommentsController
 
         if ((int)($user->getId()) === (int)($comment->getUser()->getId())
             || $this->securityContext->isGranted('ROLE_ADMIN')) {
-            $this->commentsModel->delete($comment);
-            $this->session->getFlashBag()->set(
-                'success',
-                $this->translator->trans('comments.messages.success.delete')
+
+            $commentForm = $this->formFactory->create(
+                new CommentType($user),
+                $comment,
+                array(
+                    'validation_groups' => 'comment-delete'
+                )
             );
-            if ($this->securityContext->isGranted('ROLE_ADMIN')) {
-                return new RedirectResponse(
-                    $this->router->generate('admin-comments-index')
-                );
-            } else {
-                return new RedirectResponse(
-                    $this->router->generate('posts-with-user-comments-view')
-                );
+
+            $postId = $comment->getPost()->getId();
+            $commentForm->handleRequest($request);
+
+            if ($commentForm->isValid()) {
+                if ($commentForm->get('Tak')->isClicked()) {
+                    $this->commentsModel->delete($comment);
+                    $this->session->getFlashBag()->set(
+                        'success',
+                        $this->translator->trans('comments.messages.delete')
+                    );
+
+                    if ($this->securityContext->isGranted('ROLE_ADMIN')) {
+                        return new RedirectResponse(
+                            $this->router->generate('admin-posts-comments-index', array('id' => $postId))
+                        );
+                    } else {
+                        return new RedirectResponse(
+                            $this->router->generate('posts-with-user-comments-view')
+                        );
+                    }
+                } else {
+                    if ($this->securityContext->isGranted('ROLE_ADMIN')) {
+                        return new RedirectResponse(
+                            $this->router->generate('admin-posts-comments-index', array('id' => $postId))
+                        );
+                    } else {
+                        return new RedirectResponse(
+                            $this->router->generate('posts-with-user-comments-view')
+                        );
+                    }
+                }
             }
         } else {
             $this->session->getFlashBag()->set(
@@ -262,6 +289,14 @@ class CommentsController
                 $this->router->generate('homepage')
             );
         }
+
+        return $this->templating->renderResponse(
+            'AppBundle:comments:delete.html.twig',
+            array(
+                'form' => $commentForm->createView(),
+                'comment' => $comment
+            )
+        );
     }
 
     /**

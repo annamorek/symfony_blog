@@ -46,16 +46,16 @@ class CommentType extends AbstractType
         $userRoles = $this->user->getRoles();
         $userRole = $userRoles[0];
 
+        $builder->add(
+            'id',
+            'hidden',
+            array('mapped' => false)
+        );
+
         if (isset($options['validation_groups'])
             && count($options['validation_groups'])
             && !in_array('comment-delete', $options['validation_groups'])
         ) {
-            $builder->add(
-                'id',
-                'hidden',
-                array('mapped' => false)
-            );
-
             $builder->add(
                 'content',
                 'textarea',
@@ -76,17 +76,19 @@ class CommentType extends AbstractType
                     )
                 );
             }
+            $builder->add(
+                'Zapisz',
+                'submit',
+                array(
+                    'label' => 'Zapisz',
+                    'attr'=> array('class'=>'btn btn-primary btn-save')
+
+                )
+            );
+        } elseif (in_array('comment-delete', $options['validation_groups'])) {
+            $builder->add('Tak', 'submit');
+            $builder->add('Nie', 'submit');
         }
-        $builder->add(
-            'Zapisz',
-            'submit',
-            array(
-                'label' => 'Zapisz',
-                'attr'=> array('class'=>'btn btn-primary btn-save')
-
-            )
-        );
-
     }
 
     /**

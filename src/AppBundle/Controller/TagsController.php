@@ -275,14 +275,31 @@ class TagsController
             )
         );
 
-        $this->model->delete($tag);
-        $this->session->getFlashBag()->set(
-            'success',
-            $this->translator->trans('tags.messages.success.delete')
-        );
-        return new RedirectResponse(
-            $this->router->generate('tags-index')
-        );
+        $tagForm->handleRequest($request);
 
+        if ($tagForm->isValid()) {
+            if ($tagForm->get('Tak')->isClicked()) {
+                $this->model->delete($tag);
+                $this->session->getFlashBag()->set(
+                    'success',
+                    $this->translator->trans('tags.messages.success.delete')
+                );
+                return new RedirectResponse(
+                    $this->router->generate('tags-index')
+                );
+            } else {
+                return new RedirectResponse(
+                    $this->router->generate('tags-index')
+                );
+            }
+        }
+
+        return $this->templating->renderResponse(
+            'AppBundle:tags:delete.html.twig',
+            array(
+                'form' => $tagForm->createView(),
+                'tag' => $tag
+            )
+        );
     }
 }

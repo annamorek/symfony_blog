@@ -239,13 +239,44 @@ class UsersController
      */
     public function deleteAction(Request $request, User $user = null)
     {
-        $this->userModel->delete($user);
-        $this->session->getFlashBag()->set(
-            'success',
-            $this->translator->trans('users.messages.success.delete')
+        if (!$user) {
+            throw new NotFoundHttpException('User not found!');
+        }
+
+        $userForm = $this->formFactory->create(
+            new UserType(),
+            $user,
+            array(
+                'validation_groups' => 'user-delete'
+            )
         );
-        return new RedirectResponse(
-            $this->router->generate('admin-users-index')
+
+        $userForm->handleRequest($request);
+
+        if ($userForm->isValid()) {
+            if ($userForm->get('Tak')->isClicked()) {
+                $user = $userForm->getData();
+                $this->userModel->delete($user);
+                $this->session->getFlashBag()->set(
+                    'success',
+                    'Usunięto użytkownika'
+                );
+                return new RedirectResponse(
+                    $this->router->generate('admin-users-index')
+                );
+            } else {
+                return new RedirectResponse(
+                    $this->router->generate('admin-users-index')
+                );
+            }
+        }
+
+        return $this->templating->renderResponse(
+            'AppBundle:users:delete.html.twig',
+            array(
+                'form' => $userForm->createView(),
+                'user' => $user
+            )
         );
     }
 

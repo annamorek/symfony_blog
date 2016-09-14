@@ -28,15 +28,16 @@ class TagType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add(
+            'id',
+            'hidden',
+            array('mapped' => false)
+        );
+
         if (isset($options['validation_groups'])
             && count($options['validation_groups'])
             && !in_array('tag-delete', $options['validation_groups'])
         ) {
-            $builder->add(
-                'id',
-                'hidden',
-                array('mapped' => false)
-            );
             $builder->add(
                 'name',
                 'text',
@@ -46,14 +47,18 @@ class TagType extends AbstractType
                     'max_length' => 128,
                 )
             );
+            $builder->add(
+                'save',
+                'submit',
+                array(
+                    'label' => 'Save'
+                )
+            );
+        } elseif(in_array('tag-delete', $options['validation_groups'])) {
+            $builder->add('Tak', 'submit');
+            $builder->add('Nie', 'submit');
         }
-        $builder->add(
-            'save',
-            'submit',
-            array(
-                'label' => 'Save'
-            )
-        );
+
     }
 
     /**

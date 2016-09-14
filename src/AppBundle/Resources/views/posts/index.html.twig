@@ -31,7 +31,7 @@
                         {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
                             <a class="" href="{{ path('admin-posts-view', { 'id' : post.id }) }}">{{ 'show'|trans }}</a>
                             <a class="" href="{{ path('admin-posts-edit', { 'id' : post.id }) }}">{{ 'edit'|trans }}</a>
-                            <a class="" href="{{ path('admin-posts-delete', { 'id' : post.id }) }}" onclick="return confirm('Na pewno chcesz usunąć post?')">{{ 'delete'|trans }}</a>
+                            <a class="" href="{{ path('admin-posts-delete', { 'id' : post.id }) }}">{{ 'delete'|trans }}</a>
                             <a class="" href="{{ path('admin-posts-comments-index', { 'id' : post.id }) }}">{{ 'showComments'|trans }}</a>
                         {% else %}
                             <a class="" href="{{ path('posts-view', { 'id' : post.id }) }}">{{ 'show'|trans }}</a>

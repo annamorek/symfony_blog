@@ -24,7 +24,7 @@
                     </td>
                     <td>
                         <a href="{{ path('admin-users-edit', { 'id' : user.id}) }}">Edytuj</a>
-                        <a href="{{ path('admin-users-delete', { 'id' : user.id }) }}" onclick="return confirm('Na pewno chcesz usunąć użytkownika?')">{{ 'delete'|trans }}</a>
+                        <a href="{{ path('admin-users-delete', { 'id' : user.id }) }}">{{ 'delete'|trans }}</a>
                     </td>
                 </tr>
             {% endfor %}

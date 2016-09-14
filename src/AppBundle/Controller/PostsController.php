@@ -227,13 +227,54 @@ class PostsController
      */
     public function deleteAction(Request $request, Post $post = null)
     {
-        $this->postsModel->delete($post);
-        $this->session->getFlashBag()->set(
-            'success',
-            $this->translator->trans('posts.messages.success.delete')
+        if (!$post) {
+            $this->session->getFlashBag()->set(
+                'warning',
+                $this->translator->trans('posts.messages.not_found')
+            );
+            return new RedirectResponse(
+                $this->router->generate('admin-posts-index')
+            );
+        }
+
+        $postForm = $this->formFactory->create(
+            new PostType(),
+            $post,
+            array(
+                'validation_groups' => 'post-delete',
+                'tag_model' =>$this->tagsModel
+            )
         );
-        return new RedirectResponse(
-            $this->router->generate('admin-posts-index')
+
+        $postForm->handleRequest($request);
+
+        if ($postForm->isValid()) {
+            if ($postForm->get('Tak')->isClicked()) {
+                $comments = $post->getComments();
+                foreach ($comments as $comment) {
+                    $this->commentsModel->delete($comment);
+                }
+                $this->postsModel->delete($post);
+                $this->session->getFlashBag()->set(
+                    'success',
+                    $this->translator->trans('posts.messages.success.delete')
+                );
+                return new RedirectResponse(
+                    $this->router->generate('admin-posts-index')
+                );
+            } else {
+                return new RedirectResponse(
+                    $this->router->generate('admin-posts-index')
+                );
+            }
+        }
+
+        return $this->templating->renderResponse(
+            'AppBundle:posts:delete.html.twig',
+            array(
+                'form' => $postForm->createView(),
+                'post' => $post
+            )
         );
     }
 
