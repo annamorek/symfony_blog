@@ -1,51 +1,53 @@
 {% extends 'AppBundle::base.html.twig' %}
 {% block body %}
     {% include 'AppBundle:staticPages:header.html.twig' %}
-        <h2>
-            {{ 'posts.views.index.title'|trans }}
-            {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
-                <a class="btn btn-primary" href="{{ path('admin-posts-add') }}">Dodaj post</a>
-            {% endif %}
-        </h2>
-        <div>
-            {% if posts %}
-                {% for post in posts %}
-                    <div class="col-md-10 col-md-offset-1">
-                        <h3><a href="{{ path('posts-view', { 'id' : post.id }) }}">{{ post.topic }}</a></h3>
-                        <p>{{ post.content ? post.content|length > 20 ? post.content|slice(1, 200) ~ '...' : post.content }}</p>
-                        <p>Tagi:
-                            {% for tag in post.tags %}
-                                <a href="{{ path('tags-view', { 'id' : tag.id }) }}">{{ tag.name }}</a>
-                            {% endfor %}
-                        </p>
-                        <p>Dodano: {{ post.CreatedAt ? post.CreatedAt|date('d-m-Y') }}</p>
-                        <hr />
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>{{ 'posts.views.index.no_posts'|trans }}</p>
-            {% endif %}
-        </div>
+    <h2>
+        {{ 'posts.views.index.title'|trans }}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-primary" href="{{ path('admin-posts-add') }}">Dodaj post</a>
+        {% endif %}
+    </h2>
+    <div>
+        {% if posts %}
+            {% for post in posts %}
+                <div class="col-md-10 col-md-offset-1">
+                    <h3><a href="{{ path('posts-view', { 'id' : post.id }) }}">{{ post.topic }}</a></h3>
+                    <p>{{ post.content ? post.content|length > 20 ? post.content|slice(1, 200) ~ '...' : post.content }}</p>
+                    <p>Tagi:
+                        {% for tag in post.tags %}
+                            <a href="{{ path('tags-view', { 'id' : tag.id }) }}">{{ tag.name }}</a>
+                        {% endfor %}
+                    </p>
+                    <p>Dodano: {{ post.CreatedAt ? post.CreatedAt|date('d-m-Y') }}</p>
+                    <hr />
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>{{ 'posts.views.index.no_posts'|trans }}</p>
+        {% endif %}
+    </div>
 {% endblock %}
 {% block pagination %}
-      {% if maxPages > 1 %}
-        <ul class="pagination pagination-sm">
-            {# `«` arrow  #}
-            <li {{ thisPage == 1 ? 'class="disabled"' }}>
-                <a href="{{ path('homepage', {page: thisPage-1 < 1 ? 1 : thisPage-1}) }}">«</a>
-            </li>
-
-            {# Render each page number #}
-            {% for i in 1..maxPages %}
-                <li {{ thisPage == i ? 'class="active"' }}>
-                    <a href="{{ path('homepage', {page: i}) }}">{{ i }}</a>
+    {% if maxPages > 1 %}
+        <div class="text-center">
+            <ul class="pagination pagination-sm">
+                {# `«` arrow  #}
+                <li {{ thisPage == 1 ? 'class="disabled"' }}>
+                    <a href="{{ path('homepage', {page: thisPage-1 < 1 ? 1 : thisPage-1}) }}">«</a>
                 </li>
-            {% endfor %}
 
-            {# `»` arrow #}
-            <li {{ thisPage == maxPages ? 'class="disabled"' }}>
-                <a href="{{ path('homepage', {page: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}">»</a>
-            </li>
-        </ul>
+                {# Render each page number #}
+                {% for i in 1..maxPages %}
+                    <li {{ thisPage == i ? 'class="active"' }}>
+                        <a href="{{ path('homepage', {page: i}) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+
+                {# `»` arrow #}
+                <li {{ thisPage == maxPages ? 'class="disabled"' }}>
+                    <a href="{{ path('homepage', {page: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}">»</a>
+                </li>
+            </ul>
+        </div>
     {% endif %}
 {% endblock %}

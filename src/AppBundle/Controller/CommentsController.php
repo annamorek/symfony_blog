@@ -239,7 +239,6 @@ class CommentsController
 
         if ((int)($user->getId()) === (int)($comment->getUser()->getId())
             || $this->securityContext->isGranted('ROLE_ADMIN')) {
-
             $commentForm = $this->formFactory->create(
                 new CommentType($user),
                 $comment,

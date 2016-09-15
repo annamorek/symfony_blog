@@ -38,7 +38,6 @@ class UserType extends AbstractType
             $builder->add('Tak', 'submit');
             $builder->add('Nie', 'submit');
         } else {
-
             $builder->add(
                 'username',
                 'text',

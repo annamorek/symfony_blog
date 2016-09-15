@@ -54,7 +54,7 @@ class TagType extends AbstractType
                     'label' => 'Save'
                 )
             );
-        } elseif(in_array('tag-delete', $options['validation_groups'])) {
+        } elseif (in_array('tag-delete', $options['validation_groups'])) {
             $builder->add('Tak', 'submit');
             $builder->add('Nie', 'submit');
         }
